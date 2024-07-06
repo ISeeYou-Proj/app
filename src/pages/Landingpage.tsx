@@ -16,7 +16,7 @@ export default function LandingPage({navigation}: Props): React.JSX.Element {
           index: 1,
           routes: [
             {
-              name: 'Camera',
+              name: 'Iseeyou',
             },
           ],
         }),

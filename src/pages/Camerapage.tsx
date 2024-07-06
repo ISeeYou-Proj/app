@@ -1,6 +1,7 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Image, View} from 'react-native';
 import {NavParamType} from '../../App';
+import {useIsFocused} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {
   Camera,
@@ -13,10 +14,12 @@ import PermissionComponent from '../components/Permissioncomp';
 import NocamComponent from '../components/Nocamcomp';
 
 type Props = {
-  navigation: NativeStackNavigationProp<NavParamType, 'Camera'>;
+  navigation: NativeStackNavigationProp<NavParamType, 'Iseeyou'>;
 };
 
 export default function CameraPage({navigation}: Props): React.JSX.Element {
+  const isCamActive = useIsFocused();
+  console.log('isCamActive: ', isCamActive);
   const camDevice = useCameraDevice('back');
   const photoFormat = useCameraFormat(camDevice, [
     {videoResolution: 'max'},
@@ -29,6 +32,7 @@ export default function CameraPage({navigation}: Props): React.JSX.Element {
 
   const testImagePath = useTakePicture({
     cameraRef: camRef,
+    isCamActive: isCamActive,
     initialVolume: 0.5,
   });
 
@@ -44,7 +48,7 @@ export default function CameraPage({navigation}: Props): React.JSX.Element {
           device={camDevice}
           ref={camRef}
           photo={true}
-          isActive={true}
+          isActive={isCamActive}
           format={photoFormat}
         />
         <Image src={testImagePath} className="w-full h-1/3" />

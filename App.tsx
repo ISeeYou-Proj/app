@@ -1,13 +1,15 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LandingPage from './src/pages/Landingpage';
 import CameraPage from './src/pages/Camerapage';
+import ScreenshotPage from './src/pages/Screenshotpage';
 
 // React Navigation TS docs: https://reactnavigation.org/docs/typescript/
 export type NavParamType = {
   Landing: undefined;
-  Camera: undefined;
+  Iseeyou: undefined;
 };
 
 export default function App(): React.JSX.Element {
@@ -21,8 +23,27 @@ export default function App(): React.JSX.Element {
           options={{headerShown: false}}
           component={LandingPage}
         />
-        <Stack.Screen name="Camera" component={CameraPage} />
+        <Stack.Screen name="Iseeyou" component={BottomTabNav} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
+const BottomTabNav = () => {
+  const Tab = createBottomTabNavigator();
+
+  return (
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Camera"
+        options={{headerShown: false}}
+        component={CameraPage}
+      />
+      <Tab.Screen
+        name="Screenshot"
+        options={{headerShown: false}}
+        component={ScreenshotPage}
+      />
+    </Tab.Navigator>
+  );
+};
