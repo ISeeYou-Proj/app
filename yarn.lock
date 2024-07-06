@@ -3015,6 +3015,8 @@ __metadata:
     prettier: 2.8.8
     react: 18.2.0
     react-native: 0.74.3
+    react-native-vision-camera: ^4.4.1
+    react-native-volume-manager: ^1.10.0
     react-test-renderer: 18.2.0
     typescript: 5.0.4
   languageName: unknown
@@ -7949,6 +7951,36 @@ __metadata:
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 9d6d111d8990dc98bc5402c1266a808b0459b5d54830bbea24c12d908b536df7883f268a7868cfaedde3dd9d4e0d574db456f84d2e6df9c4526f99bb4b5344d8
+  languageName: node
+  linkType: hard
+
+"react-native-vision-camera@npm:^4.4.1":
+  version: 4.4.1
+  resolution: "react-native-vision-camera@npm:4.4.1"
+  peerDependencies:
+    "@shopify/react-native-skia": "*"
+    react: "*"
+    react-native: "*"
+    react-native-reanimated: "*"
+    react-native-worklets-core: "*"
+  peerDependenciesMeta:
+    "@shopify/react-native-skia":
+      optional: true
+    react-native-reanimated:
+      optional: true
+    react-native-worklets-core:
+      optional: true
+  checksum: bd471d6837f9c80278d10ed9544eb359a1ea376ea5805554cfc81605f802bdd5046ffb592f1a354238419a7cd6a3816564ef304e38b0e4857a6fa1bb2a39f3fe
+  languageName: node
+  linkType: hard
+
+"react-native-volume-manager@npm:^1.10.0":
+  version: 1.10.0
+  resolution: "react-native-volume-manager@npm:1.10.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: cfa876f99500f5f5e8a71c8a4f09b45bfbb80e5708d92d0a5c87dcd6388b8c1d9cb3759382d287bfc4ece39d1a056a87b132a8c9d7aa24c80b5e0437e2994c78
   languageName: node
   linkType: hard
 
