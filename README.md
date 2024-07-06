@@ -23,22 +23,23 @@
   - tailwindcss: 3.3.2 (devDependencies)
 - react-native-vision-camera: ^4.4.1
 - react-native-volume-manager: ^1.10.0
+- react-native-voice/voice: ^3.2.4
 
 ---
 
 ## 사용된 라이브러리 문서 (개인 참고용)
 
-### 카메라 기능을 구현하기 위한 카메라 관련 라이브러리
+#### 카메라 기능을 구현하기 위한 react-native-vision-camera 라이브러리
 
-- [react-native-vision-camera Docs](https://react-native-vision-camera.com/docs/guides)
+- [공식 문서](https://react-native-vision-camera.com/docs/guides)
 
-### 사진 촬영, 음성녹음 시작 기능을 물리 버튼(볼륨 업, 다운)으로 사용할 수 있도록 하기 위해 사용한 볼륨 관련 라이브러리
+#### 사진 촬영, 음성녹음 시작 기능을 물리 버튼(볼륨 업, 다운)으로 사용할 수 있도록 하기 위해 사용한 react-native-volume-manager 라이브러리
 
-- [react-native-volume-manager Github](https://github.com/hirbod/react-native-volume-manager)
+- [공식 Github](https://github.com/hirbod/react-native-volume-manager)
 
-### React Native에서 TailwindCSS를 사용하기 위한 Nativewind 라이브러리
+#### React Native에서 TailwindCSS를 사용하기 위한 Nativewind 라이브러리
 
-- [Nativewind Docs](https://www.nativewind.dev/quick-starts/react-native-cli)
+- [공식 문서](https://www.nativewind.dev/quick-starts/react-native-cli)
 
 - [Nativewind 스타일 적용안됨 해결](https://github.com/nativewind/nativewind/issues/77#issuecomment-2169567817)
 
@@ -46,9 +47,9 @@
 
   - RN 프로젝트 루트에 `nativewind-env.d.ts` 파일 생성하고 `/// <reference types="nativewind/types" />` 추가로 해결
 
-### 페이지를 구현하기 위해 사용한 React Navigation 라이브러리
+#### 페이지를 구현하기 위해 사용한 React Navigation 라이브러리
 
-- [공식문서](https://reactnavigation.org/docs/getting-started)
+- [공식 문서](https://reactnavigation.org/docs/getting-started)
 
   - [Stack navigator](https://reactnavigation.org/docs/hello-react-navigation)
 
@@ -58,5 +59,10 @@
 
 - [React Navigation과 TS 동시 사용 공식문서](https://reactnavigation.org/docs/typescript/)
 - [React Navigation과 TS 동시 사용 블로그](https://velog.io/@hokim/react-native-2.-%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%9D%B4%EB%8F%99-feat.-tailwind#3-2-%EB%84%A4%EC%9D%B4%ED%8B%B0%EB%B8%8C-%EC%8A%A4%ED%83%9D-%EB%84%A4%EB%B9%84%EA%B2%8C%EC%9D%B4%ED%84%B0)
+
+#### 음성 인식을 통해 챗봇을 사용하도록 하기 위한 react-native-voice/voice 라이브러리
+
+- [공식 Github](https://github.com/react-native-voice/voice)
+- [참고 블로그](https://deku.posstree.com/ko/react-native/react-native-voice/)
 
 ---
