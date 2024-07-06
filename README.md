@@ -18,6 +18,7 @@
 - react-native: 0.74.3
 - react-navigation/native: ^6.1.17
 - react-navigation/native-stack: ^6.10.0
+- react-navigation/bottom-tabs: ^6.6.0
 - nativewind: ^2.0.11
   - tailwindcss: 3.3.2 (devDependencies)
 - react-native-vision-camera: ^4.4.1
@@ -52,6 +53,8 @@
   - [Stack navigator](https://reactnavigation.org/docs/hello-react-navigation)
 
   - [Bottom tab navigator](https://reactnavigation.org/docs/bottom-tab-navigator)
+
+  - [Nesting navigators](https://reactnavigation.org/docs/nesting-navigators/)
 
 - [React Navigation과 TS 동시 사용 공식문서](https://reactnavigation.org/docs/typescript/)
 - [React Navigation과 TS 동시 사용 블로그](https://velog.io/@hokim/react-native-2.-%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%9D%B4%EB%8F%99-feat.-tailwind#3-2-%EB%84%A4%EC%9D%B4%ED%8B%B0%EB%B8%8C-%EC%8A%A4%ED%83%9D-%EB%84%A4%EB%B9%84%EA%B2%8C%EC%9D%B4%ED%84%B0)

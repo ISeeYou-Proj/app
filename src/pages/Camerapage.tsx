@@ -1,8 +1,6 @@
-import React, {useEffect, useRef} from 'react';
-import {Image, View} from 'react-native';
-import {NavParamType} from '../../App';
+import React, {useRef} from 'react';
+import {Text, View} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {
   Camera,
   useCameraDevice,
@@ -10,16 +8,13 @@ import {
   useCameraPermission,
 } from 'react-native-vision-camera';
 import {useTakePicture} from '../hooks/usetakepicture';
+import {useVolumeUpDown} from '../hooks/usevolumeupdown';
+import {useStt} from '../hooks/usestt';
 import PermissionComponent from '../components/Permissioncomp';
 import NocamComponent from '../components/Nocamcomp';
 
-type Props = {
-  navigation: NativeStackNavigationProp<NavParamType, 'Iseeyou'>;
-};
-
-export default function CameraPage({navigation}: Props): React.JSX.Element {
-  const isCamActive = useIsFocused();
-  console.log('isCamActive: ', isCamActive);
+export default function CameraPage(): React.JSX.Element {
+  const isCamPageActive = useIsFocused();
   const camDevice = useCameraDevice('back');
   const photoFormat = useCameraFormat(camDevice, [
     {videoResolution: 'max'},
@@ -29,11 +24,23 @@ export default function CameraPage({navigation}: Props): React.JSX.Element {
   const camRef = useRef<Camera>(null);
 
   const {hasPermission, requestPermission} = useCameraPermission();
-
-  const testImagePath = useTakePicture({
-    cameraRef: camRef,
-    isCamActive: isCamActive,
+  const {volumeBtnState, resetVolumeState} = useVolumeUpDown({
     initialVolume: 0.5,
+  });
+
+  // 볼륨 다운버튼 클릭 시 사진찍고 경로 반환하는 훅
+  const imagePath = useTakePicture({
+    cameraRef: camRef,
+    isCamPageActive: isCamPageActive,
+    volumeBtnState: volumeBtnState,
+    resetVolumeState: resetVolumeState,
+  });
+
+  // 볼륨 업버튼 클릭 시 녹음 시작하고, 다시 클릭 시 녹음 종료하는 훅
+  const {recognizedText, isRecording} = useStt({
+    isCamPageActive: isCamPageActive,
+    volumeBtnState: volumeBtnState,
+    resetVolumeState: resetVolumeState,
   });
 
   if (!hasPermission) {
@@ -48,10 +55,20 @@ export default function CameraPage({navigation}: Props): React.JSX.Element {
           device={camDevice}
           ref={camRef}
           photo={true}
-          isActive={isCamActive}
+          isActive={isCamPageActive}
           format={photoFormat}
         />
-        <Image src={testImagePath} className="w-full h-1/3" />
+        <View className="w-full h-1/3 flex justify-center items-center">
+          <Text className="text-custom-black text-xl">
+            isRecording: {isRecording.toString()}
+          </Text>
+          <Text className="text-custom-black text-xl">
+            res: {recognizedText}
+          </Text>
+          <Text className="text-custom-black text-xl">
+            사진 경로: {imagePath}
+          </Text>
+        </View>
       </View>
     );
   }

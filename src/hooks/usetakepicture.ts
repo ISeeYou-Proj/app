@@ -1,11 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Camera} from 'react-native-vision-camera';
-import {useVolumeUpDown} from './usevolumeupdown';
 
 interface Props {
   cameraRef: null | React.RefObject<Camera>;
-  isCamActive: boolean;
-  initialVolume: number;
+  isCamPageActive: boolean;
+  volumeBtnState: '' | 'UP' | 'DOWN';
+  resetVolumeState: () => void;
 }
 
 /**
@@ -13,20 +13,20 @@ interface Props {
  */
 export const useTakePicture = ({
   cameraRef,
-  isCamActive,
-  initialVolume,
+  isCamPageActive,
+  volumeBtnState,
+  resetVolumeState,
 }: Props) => {
   const isTakePhoto = useRef<boolean>(false);
-  const [testImagePath, setTestImagePath] = useState('');
-  const {volumeBtnState, resetVolumeState} = useVolumeUpDown({initialVolume});
+  const [ImagePath, setImagePath] = useState('');
 
   useEffect(() => {
-    if (cameraRef?.current && volumeBtnState === 'DOWN' && isCamActive) {
+    if (cameraRef?.current && volumeBtnState === 'DOWN' && isCamPageActive) {
       isTakePhoto.current = true;
       cameraRef.current
         .takePhoto({flash: 'auto'})
         .then(photo => {
-          setTestImagePath(photo.path);
+          setImagePath(photo.path);
           console.log('photo path: ', photo.path);
         })
         .catch(e => {
@@ -36,10 +36,10 @@ export const useTakePicture = ({
           resetVolumeState();
           isTakePhoto.current = false;
         });
-    } else if (!isCamActive) {
+    } else if (!isCamPageActive) {
       resetVolumeState();
     }
   }, [volumeBtnState]);
 
-  return testImagePath;
+  return ImagePath;
 };
