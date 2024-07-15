@@ -37,10 +37,10 @@ export default function CameraPage(): React.JSX.Element {
     resetVolumeState: resetVolumeState,
   });
 
-  const aiRes = usePostImg({imagePath, resetImgPath});
+  const aiPhotoRes = usePostImg({imagePath, resetImgPath});
 
   // 볼륨 업버튼 클릭 시 녹음 시작하고, 다시 클릭 시 녹음 종료하는 훅
-  const {recognizedText, isRecording} = useStt({
+  const {recognizedText, aiSttResult, isRecording} = useStt({
     isCamPageActive: isCamPageActive,
     volumeBtnState: volumeBtnState,
     resetVolumeState: resetVolumeState,
@@ -71,7 +71,12 @@ export default function CameraPage(): React.JSX.Element {
           <Text className="text-custom-black text-xl">
             사진 경로: {imagePath}
           </Text>
-          <Text className="text-custom-black text-xl">AI응답: {aiRes}</Text>
+          <Text className="text-custom-black text-xl">
+            AI 사진 응답: {aiPhotoRes}
+          </Text>
+          <Text className="text-custom-black text-xl">
+            AI stt 응답: {aiSttResult}
+          </Text>
         </View>
       </View>
     );

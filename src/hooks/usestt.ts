@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import Voice, {SpeechResultsEvent} from '@react-native-voice/voice';
+import {postSttText} from '../apis/poststttext';
 
 interface Props {
   isCamPageActive: boolean;
@@ -14,6 +15,7 @@ export const useStt = ({
 }: Props) => {
   const [isRecording, setIsRecording] = useState(false);
   const [recognizedText, setRecognizedText] = useState('');
+  const [aiSttResult, setAiSttResult] = useState<string>('');
 
   useEffect(() => {
     const onSpeechResults = (e: SpeechResultsEvent) => {
@@ -34,6 +36,7 @@ export const useStt = ({
         Voice.stop()
           .then(() => {
             setIsRecording(false);
+            postSttText({recognizedText, setAiSttResult});
           })
           .catch(e => {
             console.error('음성인식 종료에 문제 발생: ', e);
@@ -69,5 +72,5 @@ export const useStt = ({
     }
   }, [volumeBtnState, isCamPageActive]);
 
-  return {recognizedText, isRecording};
+  return {recognizedText, aiSttResult, isRecording};
 };
