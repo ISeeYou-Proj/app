@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
+import WebView from 'react-native-webview';
 
 export default function ScreenshotPage(): React.JSX.Element {
   return (
-    <View>
-      <Text>스크린샷 페이지입니다</Text>
+    <View className="w-full h-full">
+      <WebView className="w-full h-full" source={{uri: 'https://naver.com'}} />
     </View>
   );
 }

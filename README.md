@@ -24,6 +24,9 @@
 - react-native-vision-camera: ^4.4.1
 - react-native-volume-manager: ^1.10.0
 - react-native-voice/voice: ^3.2.4
+- react-native-fs: ^2.20.0
+- react-native-webview: ^13.10.5
+- axios: ^1.7.2
 
 ---
 
