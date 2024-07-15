@@ -12,6 +12,7 @@ import {useVolumeUpDown} from '../hooks/usevolumeupdown';
 import {useStt} from '../hooks/usestt';
 import PermissionComponent from '../components/Permissioncomp';
 import NocamComponent from '../components/Nocamcomp';
+import {usePostImg} from '../hooks/usepostimg';
 
 export default function CameraPage(): React.JSX.Element {
   const isCamPageActive = useIsFocused();
@@ -29,12 +30,14 @@ export default function CameraPage(): React.JSX.Element {
   });
 
   // 볼륨 다운버튼 클릭 시 사진찍고 경로 반환하는 훅
-  const imagePath = useTakePicture({
+  const {imagePath, resetImgPath} = useTakePicture({
     cameraRef: camRef,
     isCamPageActive: isCamPageActive,
     volumeBtnState: volumeBtnState,
     resetVolumeState: resetVolumeState,
   });
+
+  const aiRes = usePostImg({imagePath, resetImgPath});
 
   // 볼륨 업버튼 클릭 시 녹음 시작하고, 다시 클릭 시 녹음 종료하는 훅
   const {recognizedText, isRecording} = useStt({
@@ -68,6 +71,7 @@ export default function CameraPage(): React.JSX.Element {
           <Text className="text-custom-black text-xl">
             사진 경로: {imagePath}
           </Text>
+          <Text className="text-custom-black text-xl">AI응답: {aiRes}</Text>
         </View>
       </View>
     );
