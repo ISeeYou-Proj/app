@@ -3,16 +3,12 @@ import Voice, {SpeechResultsEvent} from '@react-native-voice/voice';
 import {postSttText} from '../apis/poststttext';
 
 interface Props {
-  isCamPageActive: boolean;
+  isActive: boolean;
   volumeBtnState: '' | 'UP' | 'DOWN';
   resetVolumeState: () => void;
 }
 
-export const useStt = ({
-  isCamPageActive,
-  volumeBtnState,
-  resetVolumeState,
-}: Props) => {
+export const useStt = ({isActive, volumeBtnState, resetVolumeState}: Props) => {
   const [isRecording, setIsRecording] = useState(false);
   const [recognizedText, setRecognizedText] = useState('');
   const [aiSttResult, setAiSttResult] = useState<string>('');
@@ -31,7 +27,7 @@ export const useStt = ({
   }, []);
 
   useEffect(() => {
-    if (volumeBtnState === 'UP' && isCamPageActive) {
+    if (volumeBtnState === 'UP' && isActive) {
       if (isRecording) {
         Voice.stop()
           .then(() => {
@@ -57,7 +53,7 @@ export const useStt = ({
             resetVolumeState();
           });
       }
-    } else if (!isCamPageActive && isRecording) {
+    } else if (!isActive && isRecording) {
       Voice.destroy()
         .then(() => {
           setIsRecording(false);
@@ -70,7 +66,7 @@ export const useStt = ({
           resetVolumeState();
         });
     }
-  }, [volumeBtnState, isCamPageActive]);
+  }, [volumeBtnState, isActive]);
 
   return {recognizedText, aiSttResult, isRecording};
 };

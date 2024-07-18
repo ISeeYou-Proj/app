@@ -44,7 +44,7 @@ export default function CameraPage(): React.JSX.Element {
 
   // 볼륨 업버튼 클릭 시 녹음 시작하고, 다시 클릭 시 녹음 종료하는 훅, 서버로 post 요청을 하고 결과도 반환
   const {recognizedText, aiSttResult, isRecording} = useStt({
-    isCamPageActive: isCamPageActive,
+    isActive: isCamPageActive,
     volumeBtnState: volumeBtnState,
     resetVolumeState: resetVolumeState,
   });
