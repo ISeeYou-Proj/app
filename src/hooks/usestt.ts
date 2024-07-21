@@ -1,19 +1,17 @@
 import {useEffect, useState} from 'react';
 import Voice, {SpeechResultsEvent} from '@react-native-voice/voice';
+import {postSttText} from '../apis/poststttext';
 
 interface Props {
-  isCamPageActive: boolean;
+  isActive: boolean;
   volumeBtnState: '' | 'UP' | 'DOWN';
   resetVolumeState: () => void;
 }
 
-export const useStt = ({
-  isCamPageActive,
-  volumeBtnState,
-  resetVolumeState,
-}: Props) => {
+export const useStt = ({isActive, volumeBtnState, resetVolumeState}: Props) => {
   const [isRecording, setIsRecording] = useState(false);
   const [recognizedText, setRecognizedText] = useState('');
+  const [aiSttResult, setAiSttResult] = useState<string>('');
 
   useEffect(() => {
     const onSpeechResults = (e: SpeechResultsEvent) => {
@@ -29,11 +27,12 @@ export const useStt = ({
   }, []);
 
   useEffect(() => {
-    if (volumeBtnState === 'UP' && isCamPageActive) {
+    if (volumeBtnState === 'UP' && isActive) {
       if (isRecording) {
         Voice.stop()
           .then(() => {
             setIsRecording(false);
+            postSttText({recognizedText, setAiSttResult});
           })
           .catch(e => {
             console.error('음성인식 종료에 문제 발생: ', e);
@@ -54,7 +53,7 @@ export const useStt = ({
             resetVolumeState();
           });
       }
-    } else if (!isCamPageActive && isRecording) {
+    } else if (!isActive && isRecording) {
       Voice.destroy()
         .then(() => {
           setIsRecording(false);
@@ -67,7 +66,7 @@ export const useStt = ({
           resetVolumeState();
         });
     }
-  }, [volumeBtnState, isCamPageActive]);
+  }, [volumeBtnState, isActive]);
 
-  return {recognizedText, isRecording};
+  return {recognizedText, aiSttResult, isRecording};
 };

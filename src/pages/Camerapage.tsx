@@ -12,6 +12,9 @@ import {useVolumeUpDown} from '../hooks/usevolumeupdown';
 import {useStt} from '../hooks/usestt';
 import PermissionComponent from '../components/Permissioncomp';
 import NocamComponent from '../components/Nocamcomp';
+import {usePostImg} from '../hooks/usepostimg';
+import Shutter from '../components/Shutter';
+import Record from '../components/Record';
 
 export default function CameraPage(): React.JSX.Element {
   const isCamPageActive = useIsFocused();
@@ -29,16 +32,19 @@ export default function CameraPage(): React.JSX.Element {
   });
 
   // 볼륨 다운버튼 클릭 시 사진찍고 경로 반환하는 훅
-  const imagePath = useTakePicture({
+  const {imagePath, resetImgPath} = useTakePicture({
     cameraRef: camRef,
     isCamPageActive: isCamPageActive,
     volumeBtnState: volumeBtnState,
     resetVolumeState: resetVolumeState,
   });
 
-  // 볼륨 업버튼 클릭 시 녹음 시작하고, 다시 클릭 시 녹음 종료하는 훅
-  const {recognizedText, isRecording} = useStt({
-    isCamPageActive: isCamPageActive,
+  // imagePath가 변하면, 이 이미지를 base64로 인코딩 한 뒤 서버로 post 요청을 하고 결과를 반환하는 훅
+  const aiPhotoRes = usePostImg({imagePath, resetImgPath});
+
+  // 볼륨 업버튼 클릭 시 녹음 시작하고, 다시 클릭 시 녹음 종료하는 훅, 서버로 post 요청을 하고 결과도 반환
+  const {recognizedText, aiSttResult, isRecording} = useStt({
+    isActive: isCamPageActive,
     volumeBtnState: volumeBtnState,
     resetVolumeState: resetVolumeState,
   });
@@ -49,16 +55,21 @@ export default function CameraPage(): React.JSX.Element {
     return <NocamComponent />;
   } else {
     return (
-      <View className="w-full h-full ">
+      <View className="w-full h-full relative">
         <Camera
-          className="w-full h-2/3"
+          className="w-full h-full"
           device={camDevice}
           ref={camRef}
           photo={true}
           isActive={isCamPageActive}
           format={photoFormat}
         />
-        <View className="w-full h-1/3 flex justify-center items-center">
+        <View className="w-full h=1/3 p-4 flex flex-row justify-between items-center absolute bottom-10">
+          <View className="w-20 h-20" />
+          <Shutter />
+          <Record />
+        </View>
+        <View className="w-full h-1/3 flex justify-center items-center absolute top-10">
           <Text className="text-custom-black text-xl">
             isRecording: {isRecording.toString()}
           </Text>
@@ -67,6 +78,12 @@ export default function CameraPage(): React.JSX.Element {
           </Text>
           <Text className="text-custom-black text-xl">
             사진 경로: {imagePath}
+          </Text>
+          <Text className="text-custom-black text-xl">
+            AI 사진 응답: {aiPhotoRes}
+          </Text>
+          <Text className="text-custom-black text-xl">
+            AI stt 응답: {aiSttResult}
           </Text>
         </View>
       </View>

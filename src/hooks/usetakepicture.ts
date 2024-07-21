@@ -18,7 +18,11 @@ export const useTakePicture = ({
   resetVolumeState,
 }: Props) => {
   const isTakePhoto = useRef<boolean>(false);
-  const [ImagePath, setImagePath] = useState('');
+  const [imagePath, setImagePath] = useState('');
+
+  const resetImgPath = () => {
+    setImagePath('');
+  };
 
   useEffect(() => {
     if (cameraRef?.current && volumeBtnState === 'DOWN' && isCamPageActive) {
@@ -41,5 +45,5 @@ export const useTakePicture = ({
     }
   }, [volumeBtnState]);
 
-  return ImagePath;
+  return {imagePath, resetImgPath};
 };
