@@ -20,8 +20,7 @@ export default function CameraPage(): React.JSX.Element {
   const isCamPageActive = useIsFocused();
   const camDevice = useCameraDevice('back');
   const photoFormat = useCameraFormat(camDevice, [
-    {videoResolution: 'max'},
-    {photoResolution: 'max'},
+    {photoResolution: {width: 720, height: 480}},
   ]);
 
   const camRef = useRef<Camera>(null);
