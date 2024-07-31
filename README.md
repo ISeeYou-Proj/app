@@ -93,3 +93,7 @@
 - [공식 Github](https://github.com/ivpusic/react-native-image-crop-picker)
 
 ---
+
+## 안드로이드 .apk 빌드 참고
+
+- [react native android app build](https://velog.io/@gth1123/react-native-android-app-build)
