@@ -12,7 +12,7 @@ import {useVolumeUpDown} from '../hooks/usevolumeupdown';
 import {useStt} from '../hooks/usestt';
 import PermissionComponent from '../components/Permissioncomp';
 import NocamComponent from '../components/Nocamcomp';
-import {usePostImg} from '../hooks/usepostimg';
+import {useCameraPostImg} from '../hooks/usecamerapostimg';
 import Shutter from '../components/Shutter';
 import Record from '../components/Record';
 
@@ -39,7 +39,7 @@ export default function CameraPage(): React.JSX.Element {
   });
 
   // imagePath가 변하면, 이 이미지를 base64로 인코딩 한 뒤 서버로 post 요청을 하고 결과를 반환하는 훅
-  const aiPhotoRes = usePostImg({imagePath, resetImgPath});
+  const aiPhotoRes = useCameraPostImg({imagePath, resetImgPath});
 
   // 볼륨 업버튼 클릭 시 녹음 시작하고, 다시 클릭 시 녹음 종료하는 훅, 서버로 post 요청을 하고 결과도 반환
   const {recognizedText, aiSttResult, isRecording} = useStt({

@@ -5,6 +5,7 @@ import ViewShot from 'react-native-view-shot';
 import {useStt} from '../hooks/usestt';
 import {useIsFocused} from '@react-navigation/native';
 import {useVolumeUpDown} from '../hooks/usevolumeupdown';
+import {useWebviewPostImg} from '../hooks/usewebviewpostimg';
 
 export default function ScreenshotPage(): React.JSX.Element {
   const isWebviewActive = useIsFocused();
@@ -15,12 +16,32 @@ export default function ScreenshotPage(): React.JSX.Element {
     initialVolume: 0.5,
   });
 
+  const resetCaptureImage = () => {
+    setCaptureImg('');
+  };
+
+  const handleModalVisible = () => {
+    setIsModalVisible(prev => !prev);
+  };
+
   // 볼륨 업버튼 클릭 시 녹음 시작하고, 다시 클릭 시 녹음 종료하는 훅, 서버로 post 요청을 하고 결과도 반환
   const {recognizedText, aiSttResult, isRecording} = useStt({
     isActive: isWebviewActive,
     volumeBtnState: volumeBtnState,
     resetVolumeState: resetVolumeState,
   });
+
+  // 볼륨 다운 버튼 클릭 시 화면 캡쳐
+  useEffect(() => {
+    if (isWebviewActive && volumeBtnState === 'DOWN') {
+      takeScreenShot();
+      resetVolumeState();
+      console.log('Effect 실행');
+    }
+  }, [volumeBtnState]);
+
+  // 화면 캡쳐를 감지 -> 스크린샷을 base64로 인코딩해서 서버로 전송 -> 응답 처리하는 훅
+  const aiCaptureResult = useWebviewPostImg({captureImg, resetCaptureImage});
 
   useEffect(() => {
     console.log('captureImg: ', captureImg);
@@ -40,14 +61,6 @@ export default function ScreenshotPage(): React.JSX.Element {
     }
   }, []);
 
-  const handleModalVisible = () => {
-    setIsModalVisible(prev => !prev);
-  };
-
-  useEffect(() => {
-    console.log('isModalVisible: ', isModalVisible);
-  }, [isModalVisible]);
-
   return (
     <View className="w-full h-full">
       <View className="w-full h-3/4">
@@ -56,7 +69,9 @@ export default function ScreenshotPage(): React.JSX.Element {
           options={{format: 'jpg', quality: 0.9}}
           style={{width: '100%', height: '100%'}}>
           <WebView
-            source={{uri: 'https://naver.com'}}
+            source={{
+              uri: 'https://prod.danawa.com/list/?cate=112758&15main_11_02=',
+            }}
             style={{width: '100%', height: '75%'}}
           />
         </ViewShot>
@@ -79,6 +94,7 @@ export default function ScreenshotPage(): React.JSX.Element {
             src={captureImg}
             resizeMode="contain"
           />
+          <Text className="text-xl">{aiCaptureResult}</Text>
           <TouchableOpacity
             onPress={handleModalVisible}
             className="p-2 m-2 bg-custom-deepblue rounded-lg flex justify-center items-center">
