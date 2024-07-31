@@ -39,11 +39,16 @@ export default function CameraPage(): React.JSX.Element {
   });
 
   // imagePath가 변하면, 이 이미지를 base64로 인코딩 한 뒤 서버로 post 요청을 하고 결과를 반환하는 훅
-  const aiPhotoRes = useCameraPostImg({imagePath, resetImgPath});
+  const {response: aiPhotoRes, setResponse: setAiPhotoRes} = useCameraPostImg({
+    imagePath,
+    resetImgPath,
+  });
 
   // 볼륨 업버튼 클릭 시 녹음 시작하고, 다시 클릭 시 녹음 종료하는 훅, 서버로 post 요청을 하고 결과도 반환
-  const {recognizedText, aiSttResult, isRecording} = useStt({
+  const {recognizedText, isRecording} = useStt({
     isActive: isCamPageActive,
+    prevAnswer: aiPhotoRes,
+    setPrevAnswer: setAiPhotoRes,
     volumeBtnState: volumeBtnState,
     resetVolumeState: resetVolumeState,
   });
@@ -80,9 +85,6 @@ export default function CameraPage(): React.JSX.Element {
           </Text>
           <Text className="text-custom-black text-xl">
             AI 사진 응답: {aiPhotoRes}
-          </Text>
-          <Text className="text-custom-black text-xl">
-            AI stt 응답: {aiSttResult}
           </Text>
         </View>
       </View>

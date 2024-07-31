@@ -15,7 +15,12 @@ export const useWebviewPostImg = ({captureImg, resetCaptureImage}: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (captureImg === '' || loading) return;
+    if (captureImg === '' || loading) {
+      console.log(
+        'captureImg가 비어있거나 loading중이므로 useWebviewPostImg 훅을 early return 합니다.',
+      );
+      return;
+    }
 
     const uploadImage = async () => {
       try {
@@ -62,5 +67,5 @@ export const useWebviewPostImg = ({captureImg, resetCaptureImage}: Props) => {
     console.log('loading: ', loading);
   }, [loading]);
 
-  return response;
+  return {response, setResponse};
 };

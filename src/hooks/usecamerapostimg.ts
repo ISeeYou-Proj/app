@@ -57,5 +57,5 @@ export const useCameraPostImg = ({imagePath, resetImgPath}: Props) => {
     console.log('loading: ', loading);
   }, [loading]);
 
-  return response;
+  return {response, setResponse};
 };
