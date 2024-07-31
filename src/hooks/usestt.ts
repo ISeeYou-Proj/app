@@ -4,14 +4,23 @@ import {postSttText} from '../apis/poststttext';
 
 interface Props {
   isActive: boolean;
+  prevAnswer: string;
+  prevBase64Img: string;
+  setPrevAnswer: React.Dispatch<React.SetStateAction<string>>;
   volumeBtnState: '' | 'UP' | 'DOWN';
   resetVolumeState: () => void;
 }
 
-export const useStt = ({isActive, volumeBtnState, resetVolumeState}: Props) => {
+export const useStt = ({
+  isActive,
+  prevAnswer,
+  prevBase64Img,
+  setPrevAnswer,
+  volumeBtnState,
+  resetVolumeState,
+}: Props) => {
   const [isRecording, setIsRecording] = useState(false);
   const [recognizedText, setRecognizedText] = useState('');
-  const [aiSttResult, setAiSttResult] = useState<string>('');
 
   useEffect(() => {
     const onSpeechResults = (e: SpeechResultsEvent) => {
@@ -32,7 +41,12 @@ export const useStt = ({isActive, volumeBtnState, resetVolumeState}: Props) => {
         Voice.stop()
           .then(() => {
             setIsRecording(false);
-            postSttText({recognizedText, setAiSttResult});
+            postSttText({
+              reqText: recognizedText,
+              prevAnswer: prevAnswer,
+              prevBase64Img: prevBase64Img,
+              setPrevAnswer: setPrevAnswer,
+            });
           })
           .catch(e => {
             console.error('음성인식 종료에 문제 발생: ', e);
@@ -68,5 +82,5 @@ export const useStt = ({isActive, volumeBtnState, resetVolumeState}: Props) => {
     }
   }, [volumeBtnState, isActive]);
 
-  return {recognizedText, aiSttResult, isRecording};
+  return {recognizedText, isRecording};
 };

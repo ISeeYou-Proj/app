@@ -1,1 +1,1 @@
-export const API_URL = 'https://chsdev.mooo.com/api/';
+export const API_URL = 'https://iseeyou.kr.mooo.com';

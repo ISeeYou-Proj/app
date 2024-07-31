@@ -938,6 +938,8 @@ PODS:
     - React-debug
   - react-native-safe-area-context (4.10.7):
     - React-Core
+  - react-native-view-shot (3.8.0):
+    - React-Core
   - react-native-voice (3.2.4):
     - React-Core
   - react-native-volume-manager (1.10.0):
@@ -1195,6 +1197,15 @@ PODS:
     - React-utils (= 0.74.3)
   - RNFS (2.20.0):
     - React-Core
+  - RNImageCropPicker (0.41.2):
+    - React-Core
+    - React-RCTImage
+    - RNImageCropPicker/QBImagePickerController (= 0.41.2)
+    - TOCropViewController (~> 2.7.4)
+  - RNImageCropPicker/QBImagePickerController (0.41.2):
+    - React-Core
+    - React-RCTImage
+    - TOCropViewController (~> 2.7.4)
   - RNScreens (3.32.0):
     - DoubleConversion
     - glog
@@ -1217,7 +1228,13 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNSound (0.11.2):
+    - React-Core
+    - RNSound/Core (= 0.11.2)
+  - RNSound/Core (0.11.2):
+    - React-Core
   - SocketRocket (0.7.0)
+  - TOCropViewController (2.7.4)
   - VisionCamera (4.4.1):
     - VisionCamera/Core (= 4.4.1)
     - VisionCamera/React (= 4.4.1)
@@ -1260,6 +1277,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-view-shot (from `../node_modules/react-native-view-shot`)
   - "react-native-voice (from `../node_modules/@react-native-voice/voice`)"
   - react-native-volume-manager (from `../node_modules/react-native-volume-manager`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -1287,7 +1305,9 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNFS (from `../node_modules/react-native-fs`)
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSound (from `../node_modules/react-native-sound`)
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -1295,6 +1315,7 @@ SPEC REPOS:
   trunk:
     - Mute
     - SocketRocket
+    - TOCropViewController
 
 EXTERNAL SOURCES:
   boost:
@@ -1360,6 +1381,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-view-shot:
+    :path: "../node_modules/react-native-view-shot"
   react-native-voice:
     :path: "../node_modules/@react-native-voice/voice"
   react-native-volume-manager:
@@ -1414,8 +1437,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNFS:
     :path: "../node_modules/react-native-fs"
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSound:
+    :path: "../node_modules/react-native-sound"
   VisionCamera:
     :path: "../node_modules/react-native-vision-camera"
   Yoga:
@@ -1454,6 +1481,7 @@ SPEC CHECKSUMS:
   React-logger: fa92ba4d3a5d39ac450f59be2a3cec7b099f0304
   React-Mapbuffer: 9f68550e7c6839d01411ac8896aea5c868eff63a
   react-native-safe-area-context: 422017db8bcabbada9ad607d010996c56713234c
+  react-native-view-shot: 6b7ed61d77d88580fed10954d45fad0eb2d47688
   react-native-voice: f5e8eec2278451d0017eb6a30a6ccc726aca34e0
   react-native-volume-manager: 3c7d8047841b6831730dea7bf25250522388b4f4
   react-native-webview: 553abd09f58e340fdc7746c9e2ae096839e99911
@@ -1481,8 +1509,11 @@ SPEC CHECKSUMS:
   React-utils: a06061b3887c702235d2dac92dacbd93e1ea079e
   ReactCommon: f00e436b3925a7ae44dfa294b43ef360fbd8ccc4
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
+  RNImageCropPicker: 771e2ca319d2cf92e04ebf334ece892ee9a6728f
   RNScreens: 5aeecbb09aa7285379b6e9f3c8a3c859bb16401c
+  RNSound: 6c156f925295bdc83e8e422e7d8b38d33bc71852
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
+  TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654
   VisionCamera: 21e2ec4cda0955d40589e939042af275e149dbf9
   Yoga: 04f1db30bb810187397fa4c37dd1868a27af229c
 

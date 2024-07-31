@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LandingPage from './src/pages/Landingpage';
 import CameraPage from './src/pages/Camerapage';
 import ScreenshotPage from './src/pages/Screenshotpage';
+import UploadImagePage from './src/pages/Uploadimagepage';
 
 // React Navigation TS docs: https://reactnavigation.org/docs/typescript/
 export type NavParamType = {
@@ -43,6 +44,11 @@ const BottomTabNav = () => {
         name="Screenshot"
         options={{headerShown: false}}
         component={ScreenshotPage}
+      />
+      <Tab.Screen
+        name="Uploadimage"
+        options={{headerShown: false}}
+        component={UploadImagePage}
       />
     </Tab.Navigator>
   );
