@@ -54,5 +54,7 @@
   	<string>$(PRODUCT_NAME) needs access to your Microphone</string>
   	<key>NSSpeechRecognitionUsageDescription</key>
   	<string>$(PRODUCT_NAME) needs access to your speech recognition</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+  	<string>$(PRODUCT_NAME) needs access to your Gallary</string>
 </dict>
 </plist>

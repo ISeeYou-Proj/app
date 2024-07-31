@@ -77,6 +77,8 @@ android {
     namespace "com.iseeyou"
     defaultConfig {
         applicationId "com.iseeyou"
+        // react-native-image-crop-picker
+        vectorDrawables.useSupportLibrary = true
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
