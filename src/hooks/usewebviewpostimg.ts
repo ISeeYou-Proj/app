@@ -13,6 +13,7 @@ interface Props {
 export const useWebviewPostImg = ({captureImg, resetCaptureImage}: Props) => {
   const [response, setResponse] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [prevBase64Img, setPrevBase64Img] = useState<string>('');
 
   useEffect(() => {
     if (captureImg === '' || loading) {
@@ -26,6 +27,8 @@ export const useWebviewPostImg = ({captureImg, resetCaptureImage}: Props) => {
       try {
         setLoading(true);
         const base64Img = await RNFS.readFile(captureImg, 'base64');
+        setPrevBase64Img(`data:image/png;base64,${base64Img}`);
+
         const postResponse = await axios.post(
           `${API_URL}/webviewimage/totallyblind`,
           {
@@ -67,5 +70,5 @@ export const useWebviewPostImg = ({captureImg, resetCaptureImage}: Props) => {
     console.log('loading: ', loading);
   }, [loading]);
 
-  return {response, setResponse};
+  return {response, setResponse, prevBase64Img};
 };

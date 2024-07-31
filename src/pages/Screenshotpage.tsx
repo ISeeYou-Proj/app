@@ -34,13 +34,17 @@ export default function ScreenshotPage(): React.JSX.Element {
   }, [volumeBtnState]);
 
   // 화면 캡쳐를 감지 -> 스크린샷을 base64로 인코딩해서 서버로 전송 -> 응답 처리하는 훅
-  const {response: aiCaptureResult, setResponse: setAiCaptureResult} =
-    useWebviewPostImg({captureImg, resetCaptureImage});
+  const {
+    response: aiCaptureResult,
+    setResponse: setAiCaptureResult,
+    prevBase64Img: prevBase64Img,
+  } = useWebviewPostImg({captureImg, resetCaptureImage});
 
   // 볼륨 업버튼 클릭 시 녹음 시작하고, 다시 클릭 시 녹음 종료하는 훅, 서버로 post 요청을 하고 결과도 반환
   const {recognizedText, isRecording} = useStt({
     isActive: isWebviewActive,
     prevAnswer: aiCaptureResult,
+    prevBase64Img: prevBase64Img,
     setPrevAnswer: setAiCaptureResult,
     volumeBtnState: volumeBtnState,
     resetVolumeState: resetVolumeState,

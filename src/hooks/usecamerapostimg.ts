@@ -12,6 +12,7 @@ interface Props {
 // 이미지 경로를 입력받아 base64로 인코딩해서 서버로 전송
 export const useCameraPostImg = ({imagePath, resetImgPath}: Props) => {
   const [response, setResponse] = useState<string>('');
+  const [prevBase64Img, setPrevBase64Img] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ export const useCameraPostImg = ({imagePath, resetImgPath}: Props) => {
       try {
         setLoading(true);
         const base64Img = await RNFS.readFile(imagePath, 'base64');
+        setPrevBase64Img(`data:image/png;base64,${base64Img}`);
         const postResponse = await axios.post(`${API_URL}/cameraimage`, {
           image: `data:image/png;base64,${base64Img}`,
         });
@@ -57,5 +59,5 @@ export const useCameraPostImg = ({imagePath, resetImgPath}: Props) => {
     console.log('loading: ', loading);
   }, [loading]);
 
-  return {response, setResponse};
+  return {response, setResponse, prevBase64Img};
 };

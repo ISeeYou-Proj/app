@@ -39,7 +39,11 @@ export default function CameraPage(): React.JSX.Element {
   });
 
   // imagePath가 변하면, 이 이미지를 base64로 인코딩 한 뒤 서버로 post 요청을 하고 결과를 반환하는 훅
-  const {response: aiPhotoRes, setResponse: setAiPhotoRes} = useCameraPostImg({
+  const {
+    response: aiPhotoRes,
+    setResponse: setAiPhotoRes,
+    prevBase64Img,
+  } = useCameraPostImg({
     imagePath,
     resetImgPath,
   });
@@ -48,6 +52,7 @@ export default function CameraPage(): React.JSX.Element {
   const {recognizedText, isRecording} = useStt({
     isActive: isCamPageActive,
     prevAnswer: aiPhotoRes,
+    prevBase64Img: prevBase64Img,
     setPrevAnswer: setAiPhotoRes,
     volumeBtnState: volumeBtnState,
     resetVolumeState: resetVolumeState,

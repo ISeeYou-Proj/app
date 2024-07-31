@@ -5,6 +5,7 @@ import {postSttText} from '../apis/poststttext';
 interface Props {
   isActive: boolean;
   prevAnswer: string;
+  prevBase64Img: string;
   setPrevAnswer: React.Dispatch<React.SetStateAction<string>>;
   volumeBtnState: '' | 'UP' | 'DOWN';
   resetVolumeState: () => void;
@@ -13,6 +14,7 @@ interface Props {
 export const useStt = ({
   isActive,
   prevAnswer,
+  prevBase64Img,
   setPrevAnswer,
   volumeBtnState,
   resetVolumeState,
@@ -42,6 +44,7 @@ export const useStt = ({
             postSttText({
               reqText: recognizedText,
               prevAnswer: prevAnswer,
+              prevBase64Img: prevBase64Img,
               setPrevAnswer: setPrevAnswer,
             });
           })

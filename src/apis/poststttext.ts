@@ -5,6 +5,7 @@ import {API_URL} from '../utils/apiurl';
 interface Props {
   reqText: string;
   prevAnswer: string;
+  prevBase64Img: string;
   setPrevAnswer: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -15,7 +16,12 @@ interface Response {
   };
 }
 
-export const postSttText = ({reqText, prevAnswer, setPrevAnswer}: Props) => {
+export const postSttText = ({
+  reqText,
+  prevAnswer,
+  prevBase64Img,
+  setPrevAnswer,
+}: Props) => {
   if (prevAnswer === '') {
     console.log(
       'prevAnswer가 비어있어 postSttText 함수를 early return 합니다.',
@@ -25,8 +31,13 @@ export const postSttText = ({reqText, prevAnswer, setPrevAnswer}: Props) => {
 
   axios
     .post(API_URL + '/voice', {
-      reqText: reqText,
-      prevText: prevAnswer,
+      voiceInput: {
+        reqText: reqText,
+        prevText: prevAnswer,
+      },
+      imageInput: {
+        image: prevBase64Img,
+      },
     })
     .then((res: Response) => {
       const {msg, mp3} = res.data;
