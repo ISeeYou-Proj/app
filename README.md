@@ -26,6 +26,10 @@
 - react-native-voice/voice: ^3.2.4
 - react-native-fs: ^2.20.0
 - react-native-webview: ^13.10.5
+- react-native-view-shot: ^3.8.0
+- react-native-image-crop-picker: ^0.41.2
+- react-native-sound: ^0.11.2
+
 - axios: ^1.7.2
 
 ---
@@ -63,9 +67,29 @@
 - [React Navigation과 TS 동시 사용 공식문서](https://reactnavigation.org/docs/typescript/)
 - [React Navigation과 TS 동시 사용 블로그](https://velog.io/@hokim/react-native-2.-%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%9D%B4%EB%8F%99-feat.-tailwind#3-2-%EB%84%A4%EC%9D%B4%ED%8B%B0%EB%B8%8C-%EC%8A%A4%ED%83%9D-%EB%84%A4%EB%B9%84%EA%B2%8C%EC%9D%B4%ED%84%B0)
 
-#### 음성 인식을 통해 챗봇을 사용하도록 하기 위한 react-native-voice/voice 라이브러리
+#### 음성 인식 STT를 통해 챗봇을 사용하도록 하기 위한 react-native-voice/voice 라이브러리
 
 - [공식 Github](https://github.com/react-native-voice/voice)
 - [참고 블로그](https://deku.posstree.com/ko/react-native/react-native-voice/)
+
+#### 앱 내에서 웹브라우징을 할 수 있도록 하기 위한 react-native-webview 라이브러리
+
+- [공식 Github](https://github.com/react-native-webview/react-native-webview)
+
+#### 웹뷰 컴포넌트를 캡쳐하기 위한 react-native-view-shot 라이브러리
+
+- [공식 Github](https://github.com/gre/react-native-view-shot)
+
+#### 파일 경로를 사용해서 이미지를 불러오고, Base64로 인코딩하기 위한 react-native-fs 라이브러리
+
+- [공식 Github](https://github.com/itinance/react-native-fs)
+
+#### TTS 음성인 mp3 파일을 재생하기 위한 react-native-sound 라이브러리
+
+- [공식 Github](https://github.com/zmxv/react-native-sound)
+
+#### 갤러리에서 이미지를 불러오기 위한 react-native-image-crop-picker 라이브러리
+
+- [공식 Github](https://github.com/ivpusic/react-native-image-crop-picker)
 
 ---
