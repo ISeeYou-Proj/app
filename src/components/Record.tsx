@@ -32,6 +32,7 @@ export default function Record({
 
   // 음성 인식 모듈 마운트
   useEffect(() => {
+    console.log('음성 인식 모듈 마운트');
     const onSpeechResults = (e: SpeechResultsEvent) => {
       if (e.value && e.value.length > 0) {
         setRecognizedText(e.value[0]);
@@ -40,6 +41,7 @@ export default function Record({
     Voice.onSpeechResults = onSpeechResults;
 
     return () => {
+      console.log('음성 인식 모듈 언마운트');
       Voice.destroy().then(Voice.removeAllListeners);
     };
   }, []);
@@ -48,7 +50,7 @@ export default function Record({
   useEffect(() => {
     const handleStt = () => {
       // 초기 로딩이거나 다른 페이지로 이동했다면 early return
-      if (recordFlag === null || !isActive) {
+      if (recordFlag === null) {
         return;
       }
       // 음성 인식 시작 버튼 클릭 시
@@ -65,6 +67,7 @@ export default function Record({
       } else if (!recordFlag && isActive) {
         Voice.stop()
           .then(() => {
+            console.log('음성 인식 종료');
             postSttText({
               reqText: recognizedText,
               prevAnswer: prevAnswer,
