@@ -7,6 +7,8 @@ interface Props {
   prevAnswer: string;
   prevBase64Img: string;
   setPrevAnswer: React.Dispatch<React.SetStateAction<string>>;
+  displayMode: string;
+  ttsSpeed: string;
 }
 
 interface Response {
@@ -21,6 +23,8 @@ export const postSttText = ({
   prevAnswer,
   prevBase64Img,
   setPrevAnswer,
+  displayMode,
+  ttsSpeed,
 }: Props) => {
   if (prevAnswer === '') {
     console.log(
@@ -31,13 +35,11 @@ export const postSttText = ({
 
   axios
     .post(API_URL + '/voice', {
-      voiceInput: {
-        reqText: reqText,
-        prevText: prevAnswer,
-      },
-      imageInput: {
-        image: prevBase64Img,
-      },
+      reqText: reqText,
+      prevText: prevAnswer,
+      prevImage: prevBase64Img,
+      displayMode: displayMode,
+      ttsSpeed: ttsSpeed,
     })
     .then((res: Response) => {
       const {msg, mp3} = res.data;

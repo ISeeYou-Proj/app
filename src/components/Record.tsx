@@ -2,6 +2,7 @@ import Voice, {SpeechResultsEvent} from '@react-native-voice/voice';
 import React, {useEffect, useState} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {postSttText} from '../apis/poststttext';
+import {getStorage} from '../utils/asyncstorage';
 
 interface Props {
   prevAnswer: string;
@@ -16,6 +17,8 @@ export default function Record({
 }: Props): React.JSX.Element {
   const [recordFlag, setRecordFlag] = useState<boolean | null>(null);
   const [recognizedText, setRecognizedText] = useState<string>('');
+  const [displayMode, setDisplayMode] = useState<string>('');
+  const [ttsSpeed, setTtsSpeed] = useState<string>('');
 
   const viewStyle = recordFlag ? 'bg-red-500' : '';
   const accessibility = recordFlag ? '녹음 종료 버튼' : '녹음 시작 버튼';
@@ -37,6 +40,20 @@ export default function Record({
       }
     };
     Voice.onSpeechResults = onSpeechResults;
+
+    getStorage('displayMode').then(value => {
+      if (value !== null) {
+        setDisplayMode(value);
+        console.log('displayMode 업뎃 완료');
+      }
+    });
+
+    getStorage('ttsSpeed').then(value => {
+      if (value !== null) {
+        setTtsSpeed(value);
+        console.log('ttsSpeed 업뎃 완료');
+      }
+    });
 
     return () => {
       console.log('음성 인식 모듈 언마운트');
@@ -71,27 +88,14 @@ export default function Record({
               prevAnswer: prevAnswer,
               prevBase64Img: prevBase64Img,
               setPrevAnswer: setPrevAnswer,
+              displayMode: displayMode,
+              ttsSpeed: ttsSpeed,
             });
           })
           .catch(error => {
             console.log('녹음 종료 도중 문제 발생', error);
           });
-        // 다른 페이지로 이동 시
       }
-      // else if (!isActive) {
-      //   Voice.destroy()
-      //     .then(() => {
-      //       console.log('다른 화면으로 이동해서 음성 인식 모듈 언마운트');
-      //       setRecordFlag(false);
-      //       setRecognizedText('');
-      //     })
-      //     .catch(error => {
-      //       console.log(
-      //         '다른 화면으로 이동해 모듈 언마운트 시도 => 실패',
-      //         error,
-      //       );
-      //     });
-      // }
     };
     handleStt();
   }, [recordFlag]);
