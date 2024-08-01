@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {View, Text, TouchableOpacity, Image, Modal} from 'react-native';
 import {WebView} from 'react-native-webview';
 import ViewShot from 'react-native-view-shot';
@@ -90,7 +90,6 @@ export default function ScreenshotPage(): React.JSX.Element {
           <Text className="text-custom-white">앞으로 가기 버튼</Text>
         </TouchableOpacity>
         <Record
-          isActive={isWebviewActive}
           prevAnswer={aiCaptureResult}
           setPrevAnswer={setAiCaptureResult}
           prevBase64Img={prevBase64Img}

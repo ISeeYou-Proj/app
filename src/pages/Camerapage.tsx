@@ -57,7 +57,6 @@ export default function CameraPage(): React.JSX.Element {
             setPrevBase64Img={setPrevBase64Img}
           />
           <Record
-            isActive={isCamPageActive}
             prevAnswer={prevAnswer}
             setPrevAnswer={setPrevAnswer}
             prevBase64Img={prevBase64Img}

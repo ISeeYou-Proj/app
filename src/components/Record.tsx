@@ -4,14 +4,12 @@ import {View, TouchableOpacity} from 'react-native';
 import {postSttText} from '../apis/poststttext';
 
 interface Props {
-  isActive: boolean;
   prevAnswer: string;
   prevBase64Img: string;
   setPrevAnswer: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function Record({
-  isActive,
   prevAnswer,
   prevBase64Img,
   setPrevAnswer,
@@ -54,7 +52,7 @@ export default function Record({
         return;
       }
       // 음성 인식 시작 버튼 클릭 시
-      if (recordFlag && isActive) {
+      if (recordFlag) {
         setRecognizedText('');
         Voice.start('ko-KR')
           .then(() => {
@@ -64,7 +62,7 @@ export default function Record({
             console.log('음성 인식 에러', error);
           });
         // 음성 인식 종료 버튼 클릭 시
-      } else if (!recordFlag && isActive) {
+      } else if (!recordFlag) {
         Voice.stop()
           .then(() => {
             console.log('음성 인식 종료');
@@ -79,23 +77,24 @@ export default function Record({
             console.log('녹음 종료 도중 문제 발생', error);
           });
         // 다른 페이지로 이동 시
-      } else if (!isActive) {
-        Voice.destroy()
-          .then(() => {
-            console.log('다른 화면으로 이동해서 음성 인식 모듈 언마운트');
-            setRecordFlag(false);
-            setRecognizedText('');
-          })
-          .catch(error => {
-            console.log(
-              '다른 화면으로 이동해 모듈 언마운트 시도 => 실패',
-              error,
-            );
-          });
       }
+      // else if (!isActive) {
+      //   Voice.destroy()
+      //     .then(() => {
+      //       console.log('다른 화면으로 이동해서 음성 인식 모듈 언마운트');
+      //       setRecordFlag(false);
+      //       setRecognizedText('');
+      //     })
+      //     .catch(error => {
+      //       console.log(
+      //         '다른 화면으로 이동해 모듈 언마운트 시도 => 실패',
+      //         error,
+      //       );
+      //     });
+      // }
     };
     handleStt();
-  }, [recordFlag, isActive]);
+  }, [recordFlag]);
 
   return (
     <View className="w-20 h-20 relative flex justify-center items-center">
