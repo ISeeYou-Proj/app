@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {View, Text, TouchableOpacity, Image, Modal} from 'react-native';
 import {WebView} from 'react-native-webview';
 import ViewShot from 'react-native-view-shot';
@@ -9,6 +9,7 @@ import Record from '../components/Record';
 export default function ScreenshotPage(): React.JSX.Element {
   const isWebviewActive = useIsFocused();
   const captureRef = useRef<ViewShot | null>(null);
+  const webViewRef = useRef<WebView | null>(null);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [captureImg, setCaptureImg] = useState<string>('');
 
@@ -18,6 +19,18 @@ export default function ScreenshotPage(): React.JSX.Element {
 
   const handleModalVisible = () => {
     setIsModalVisible(prev => !prev);
+  };
+
+  const goBack = () => {
+    if (webViewRef.current) {
+      webViewRef.current.goBack();
+    }
+  };
+
+  const goForward = () => {
+    if (webViewRef.current) {
+      webViewRef.current.goForward();
+    }
   };
 
   // 화면 캡쳐를 감지 -> 스크린샷을 base64로 인코딩해서 서버로 전송 -> 응답 처리하는 훅
@@ -52,18 +65,29 @@ export default function ScreenshotPage(): React.JSX.Element {
           options={{format: 'jpg', quality: 0.9}}
           style={{width: '100%', height: '100%'}}>
           <WebView
+            ref={webViewRef}
             source={{
-              uri: 'https://prod.danawa.com/list/?cate=112758&15main_11_02=',
+              uri: 'https://www.naver.com/',
             }}
             style={{width: '100%', height: '75%'}}
           />
         </ViewShot>
       </View>
-      <View className="w-full h-1/4 mt-4 flex justify-center items-center">
+      <View className="w-full h-1/4 mt-4 flex flex-row justify-center items-center">
         <TouchableOpacity
           onPress={takeScreenShot}
           className="p-2 m-2 bg-custom-deepblue rounded-lg flex justify-center items-center">
           <Text className="text-custom-white">캡쳐 버튼</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={goBack}
+          className="p-2 m-2 bg-custom-deepblue rounded-lg flex justify-center items-center">
+          <Text className="text-custom-white">뒤로 가기 버튼</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={goForward}
+          className="p-2 m-2 bg-custom-deepblue rounded-lg flex justify-center items-center">
+          <Text className="text-custom-white">앞으로 가기 버튼</Text>
         </TouchableOpacity>
         <Record
           isActive={isWebviewActive}
