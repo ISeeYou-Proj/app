@@ -10,7 +10,6 @@ export default function SettingPage(): React.JSX.Element {
   const [displayMode, setDisplayMode] = useState<string>('');
   const [ttsSpeed, setTtsSpeed] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
-  const [isBtnDisable, setIsBtnDisable] = useState<boolean>(true);
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
   const [dropdownValue, setDropdownValue] = useState([
     {label: 'x1.0', value: '1.0'},
@@ -57,102 +56,113 @@ export default function SettingPage(): React.JSX.Element {
   }, []);
 
   useEffect(() => {
-    if (ttsSpeed === asyncTtsSpeed && displayMode === asyncDisplayMode) {
-      setIsBtnDisable(true);
-    } else {
-      setIsBtnDisable(false);
-    }
+    getStorage('ttsSpeed').then(value => {
+      if (ttsSpeed !== '' && value !== ttsSpeed) {
+        setStorage('ttsSpeed', ttsSpeed)
+          .then(() => {
+            console.log('ttsSpeed 저장 완료');
+          })
+          .catch(error => {
+            console.log('ttsSpeed 저장 도중 에러 발생', error);
+          });
+      } else {
+        console.log('ttsSpeed 저장할 필요 X');
+      }
+      getStorage('displayMode').then(value => {
+        if (displayMode !== '' && value !== displayMode) {
+          setStorage('displayMode', displayMode)
+            .then(() => {
+              console.log('displayMode 저장 완료');
+            })
+            .catch(error => {
+              console.log('displayMode 저장 도중 에러 발생', error);
+            });
+        }
+      });
+    });
   }, [ttsSpeed, displayMode]);
-
-  useEffect(() => {
-    console.log('isBtnDisable: ', isBtnDisable);
-  }, [isBtnDisable]);
 
   return loading ? (
     <View />
   ) : (
-    <View className="w-full h-full mt-24 flex justify-center items-center p-8">
+    <View className="w-full h-full mt-0 flex justify-center items-center">
       <View className="w-full h-full">
         <View className="mb-8">
-          <Text className="text-lg text-custom-black" accessible={true}>
-            화면 모드 설정
-          </Text>
-          <RadioButtonGroup
-            selected={displayMode}
-            onSelected={value => {
-              setDisplayMode(value);
-            }}>
-            <RadioButtonGroup.RadioButtonItem
-              value="general"
-              accessibilityRole="radio"
-              accessibilityState={{checked: displayMode === 'general'}}
-              accessibilityLabel="끄기">
-              <Text className="text-custom-black">끄기</Text>
-            </RadioButtonGroup.RadioButtonItem>
-            <RadioButtonGroup.RadioButtonItem
-              value="lowVision"
-              accessibilityRole="radio"
-              accessibilityState={{checked: displayMode === 'lowVision'}}
-              accessibilityLabel="시력 저하 모드">
-              <Text className="text-custom-black">시력 저하 모드</Text>
-            </RadioButtonGroup.RadioButtonItem>
-            <RadioButtonGroup.RadioButtonItem
-              value="totallyBlind"
-              accessibilityRole="radio"
-              accessibilityState={{checked: displayMode === 'totallyBlind'}}
-              accessibilityLabel="전맹 모드">
-              <Text className="text-custom-black">전맹 모드</Text>
-            </RadioButtonGroup.RadioButtonItem>
-            <RadioButtonGroup.RadioButtonItem
-              value="redGreenColorBlind"
-              accessibilityRole="radio"
-              accessibilityState={{
-                checked: displayMode === 'redGreenColorBlind',
-              }}
-              accessibilityLabel="적록색맹 모드">
-              <Text className="text-custom-black">적록색맹 모드</Text>
-            </RadioButtonGroup.RadioButtonItem>
-            <RadioButtonGroup.RadioButtonItem
-              value="totallyColorBlind"
-              accessibilityRole="radio"
-              accessibilityState={{
-                checked: displayMode === 'totallyColorBlind',
-              }}
-              accessibilityLabel="전색맹 모드">
-              <Text className="text-custom-black">전색맹 모드</Text>
-            </RadioButtonGroup.RadioButtonItem>
-          </RadioButtonGroup>
+          <View className="w-full p-4 bg-custom-grey">
+            <Text className="text-lg text-custom-black" accessible={true}>
+              화면 모드 설정
+            </Text>
+          </View>
+          <View className="px-6">
+            <RadioButtonGroup
+              selected={displayMode}
+              onSelected={value => {
+                setDisplayMode(value);
+              }}>
+              <RadioButtonGroup.RadioButtonItem
+                value="general"
+                accessibilityRole="radio"
+                accessibilityState={{checked: displayMode === 'general'}}
+                accessibilityLabel="끄기">
+                <Text className="text-custom-black">끄기</Text>
+              </RadioButtonGroup.RadioButtonItem>
+              <View className=" mt-3 border-t border-custom-grey" />
+              <RadioButtonGroup.RadioButtonItem
+                value="lowVision"
+                accessibilityRole="radio"
+                accessibilityState={{checked: displayMode === 'lowVision'}}
+                accessibilityLabel="시력 저하 모드">
+                <Text className="text-custom-black">시력 저하 모드</Text>
+              </RadioButtonGroup.RadioButtonItem>
+              <View className=" mt-3 border-t border-custom-grey" />
+              <RadioButtonGroup.RadioButtonItem
+                value="totallyBlind"
+                accessibilityRole="radio"
+                accessibilityState={{checked: displayMode === 'totallyBlind'}}
+                accessibilityLabel="전맹 모드">
+                <Text className="text-custom-black">전맹 모드</Text>
+              </RadioButtonGroup.RadioButtonItem>
+              <View className=" mt-3 border-t border-custom-grey" />
+              <RadioButtonGroup.RadioButtonItem
+                value="redGreenColorBlind"
+                accessibilityRole="radio"
+                accessibilityState={{
+                  checked: displayMode === 'redGreenColorBlind',
+                }}
+                accessibilityLabel="적록색맹 모드">
+                <Text className="text-custom-black">적록색맹 모드</Text>
+              </RadioButtonGroup.RadioButtonItem>
+              <View className=" mt-3 border-t border-custom-grey" />
+              <RadioButtonGroup.RadioButtonItem
+                value="totallyColorBlind"
+                accessibilityRole="radio"
+                accessibilityState={{
+                  checked: displayMode === 'totallyColorBlind',
+                }}
+                accessibilityLabel="전색맹 모드">
+                <Text className="text-custom-black">전색맹 모드</Text>
+              </RadioButtonGroup.RadioButtonItem>
+            </RadioButtonGroup>
+          </View>
         </View>
         <View>
-          <Text className="text-lg text-custom-black" accessible={true}>
-            안내 음성 속도
-          </Text>
-          <DropDownPicker
-            open={openDropdown}
-            setOpen={setOpenDropdown}
-            items={dropdownValue}
-            value={ttsSpeed}
-            setValue={setTtsSpeed}
-            setItems={setDropdownValue}
-          />
+          <View className="w-full p-4 bg-custom-grey">
+            <Text className="text-lg text-custom-black" accessible={true}>
+              안내 음성 속도
+            </Text>
+          </View>
+          <View className="px-6 mt-3">
+            <DropDownPicker
+              open={openDropdown}
+              setOpen={setOpenDropdown}
+              items={dropdownValue}
+              value={ttsSpeed}
+              setValue={setTtsSpeed}
+              setItems={setDropdownValue}
+            />
+          </View>
         </View>
       </View>
-      {isBtnDisable ? (
-        <View />
-      ) : (
-        <TouchableOpacity
-          className="absolute bottom-40 bg-custom-skyblue p-4 rounded-2xl flex flex-row justify-center items-center"
-          onPress={saveNewSetting}>
-          <Image
-            source={require('../assets/save_setting.png')}
-            className="w-8 h-8 mr-2"
-            resizeMode="contain"
-          />
-          <Text className="ml-2 text-lg font-bold text-custom-black">
-            저장하기
-          </Text>
-        </TouchableOpacity>
-      )}
     </View>
   );
 }

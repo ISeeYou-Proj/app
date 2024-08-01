@@ -113,7 +113,7 @@ const DrawerNav = () => {
         ),
       })}>
       <Drawer.Screen
-        name="Iseeyou"
+        name="Home"
         component={BottomTabNav}
         options={{
           headerTransparent: true,

@@ -60,6 +60,7 @@ export default function CameraPage(): React.JSX.Element {
             prevAnswer={prevAnswer}
             setPrevAnswer={setPrevAnswer}
             prevBase64Img={prevBase64Img}
+            width="20"
           />
         </View>
       </View>
