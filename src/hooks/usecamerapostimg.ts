@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 import RNFS from 'react-native-fs';
 import Sound from 'react-native-sound';
 import {API_URL} from '../utils/apiurl';
+import {getStorage} from '../utils/asyncstorage';
 
 interface Props {
   imagePath: string;
@@ -27,10 +28,14 @@ export const useCameraPostImg = ({
     const uploadImage = async () => {
       try {
         setLoading(true);
+        const displayMode = await getStorage('displayMode');
+        const ttsSpeed = await getStorage('ttsSpeed');
         const base64Img = await RNFS.readFile(imagePath, 'base64');
         setPrevBase64Img(`data:image/png;base64,${base64Img}`);
         const postResponse = await axios.post(`${API_URL}/cameraimage`, {
           image: `data:image/png;base64,${base64Img}`,
+          displayMode: displayMode,
+          ttsSpeed: ttsSpeed,
         });
         const {msg, mp3}: {msg: string; mp3: string} = postResponse.data;
         console.log('msg: ', msg, 'mp3: ', mp3);
