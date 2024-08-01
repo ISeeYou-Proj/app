@@ -1,6 +1,6 @@
 import Voice, {SpeechResultsEvent} from '@react-native-voice/voice';
 import React, {useEffect, useState} from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, Image} from 'react-native';
 import {postSttText} from '../apis/poststttext';
 import {getStorage} from '../utils/asyncstorage';
 
@@ -8,12 +8,14 @@ interface Props {
   prevAnswer: string;
   prevBase64Img: string;
   setPrevAnswer: React.Dispatch<React.SetStateAction<string>>;
+  width: string;
 }
 
 export default function Record({
   prevAnswer,
   prevBase64Img,
   setPrevAnswer,
+  width,
 }: Props): React.JSX.Element {
   const [recordFlag, setRecordFlag] = useState<boolean | null>(null);
   const [recognizedText, setRecognizedText] = useState<string>('');
@@ -104,13 +106,23 @@ export default function Record({
     <View className="w-20 h-20 relative flex justify-center items-center">
       <View className="w-full h-full rounded-full absolute bottom-0.5 left-0.5 flex justify-center items-center">
         <TouchableOpacity
-          className="w-5/6 h-5/6 rounded-full bg-custom-white flex justify-center items-center"
+          className="w-5/6 h-5/6 flex justify-center items-center"
           onPress={handleClickBtn}
           accessible={true}
           accessibilityLabel={accessibility}>
-          <View
-            className={`w-1/3 h-1/3 rounded-full border-2 border-red-500 ${viewStyle}`}
-          />
+          {recordFlag ? (
+            <Image
+              className={`w-${width} h-${width} p-2`}
+              source={require('../assets/mic_off.png')}
+              resizeMode="center"
+            />
+          ) : (
+            <Image
+              className={`w-${width} h-${width} p-2`}
+              source={require('../assets/mic.png')}
+              resizeMode="center"
+            />
+          )}
         </TouchableOpacity>
       </View>
     </View>
