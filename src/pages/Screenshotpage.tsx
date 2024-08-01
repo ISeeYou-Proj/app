@@ -1,20 +1,17 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {View, Text, TouchableOpacity, Image, Modal} from 'react-native';
 import {WebView} from 'react-native-webview';
 import ViewShot from 'react-native-view-shot';
-import {useStt} from '../hooks/usestt';
 import {useIsFocused} from '@react-navigation/native';
-import {useVolumeUpDown} from '../hooks/usevolumeupdown';
 import {useWebviewPostImg} from '../hooks/usewebviewpostimg';
+import Record from '../components/Record';
 
 export default function ScreenshotPage(): React.JSX.Element {
   const isWebviewActive = useIsFocused();
   const captureRef = useRef<ViewShot | null>(null);
+  const webViewRef = useRef<WebView | null>(null);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [captureImg, setCaptureImg] = useState<string>('');
-  const {volumeBtnState, resetVolumeState} = useVolumeUpDown({
-    initialVolume: 0.5,
-  });
 
   const resetCaptureImage = () => {
     setCaptureImg('');
@@ -24,14 +21,17 @@ export default function ScreenshotPage(): React.JSX.Element {
     setIsModalVisible(prev => !prev);
   };
 
-  // 볼륨 다운 버튼 클릭 시 화면 캡쳐
-  useEffect(() => {
-    if (isWebviewActive && volumeBtnState === 'DOWN') {
-      takeScreenShot();
-      resetVolumeState();
-      console.log('Effect 실행');
+  const goBack = () => {
+    if (webViewRef.current) {
+      webViewRef.current.goBack();
     }
-  }, [volumeBtnState]);
+  };
+
+  const goForward = () => {
+    if (webViewRef.current) {
+      webViewRef.current.goForward();
+    }
+  };
 
   // 화면 캡쳐를 감지 -> 스크린샷을 base64로 인코딩해서 서버로 전송 -> 응답 처리하는 훅
   const {
@@ -40,20 +40,9 @@ export default function ScreenshotPage(): React.JSX.Element {
     prevBase64Img: prevBase64Img,
   } = useWebviewPostImg({captureImg, resetCaptureImage});
 
-  // 볼륨 업버튼 클릭 시 녹음 시작하고, 다시 클릭 시 녹음 종료하는 훅, 서버로 post 요청을 하고 결과도 반환
-  const {recognizedText, isRecording} = useStt({
-    isActive: isWebviewActive,
-    prevAnswer: aiCaptureResult,
-    prevBase64Img: prevBase64Img,
-    setPrevAnswer: setAiCaptureResult,
-    volumeBtnState: volumeBtnState,
-    resetVolumeState: resetVolumeState,
-  });
-
-  useEffect(() => {
-    console.log('captureImg: ', captureImg);
-  }, [captureImg]);
-
+  /**
+   * @description 스크린샷 촬영 후 이미지 경로를 생성해서 captureImg 상태 업데이트하고 모달을 여는 함수
+   */
   const takeScreenShot = useCallback(() => {
     if (captureRef.current?.capture) {
       captureRef.current
@@ -76,23 +65,36 @@ export default function ScreenshotPage(): React.JSX.Element {
           options={{format: 'jpg', quality: 0.9}}
           style={{width: '100%', height: '100%'}}>
           <WebView
+            ref={webViewRef}
             source={{
-              uri: 'https://prod.danawa.com/list/?cate=112758&15main_11_02=',
+              uri: 'https://www.naver.com/',
             }}
             style={{width: '100%', height: '75%'}}
           />
         </ViewShot>
       </View>
-      <View className="w-full h-1/4 mt-4 flex justify-center items-center">
-        <Text className="text-xl">음성인식: {recognizedText}</Text>
-        <Text className="text-xl">
-          현재 음성인식중?: {isRecording.toString()}
-        </Text>
+      <View className="w-full h-1/4 mt-4 flex flex-row justify-center items-center">
         <TouchableOpacity
           onPress={takeScreenShot}
           className="p-2 m-2 bg-custom-deepblue rounded-lg flex justify-center items-center">
           <Text className="text-custom-white">캡쳐 버튼</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={goBack}
+          className="p-2 m-2 bg-custom-deepblue rounded-lg flex justify-center items-center">
+          <Text className="text-custom-white">뒤로 가기 버튼</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={goForward}
+          className="p-2 m-2 bg-custom-deepblue rounded-lg flex justify-center items-center">
+          <Text className="text-custom-white">앞으로 가기 버튼</Text>
+        </TouchableOpacity>
+        <Record
+          isActive={isWebviewActive}
+          prevAnswer={aiCaptureResult}
+          setPrevAnswer={setAiCaptureResult}
+          prevBase64Img={prevBase64Img}
+        />
       </View>
       <Modal visible={isModalVisible}>
         <View className="w-full h-full bg-custom-skyblue flex justify-center items-center">
