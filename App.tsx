@@ -9,7 +9,10 @@ import ScreenshotPage from './src/pages/Screenshotpage';
 import UploadImagePage from './src/pages/Uploadimagepage';
 import SettingPage from './src/pages/Settingpage';
 import {Image} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  GestureHandlerRootView,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 
 // React Navigation TS docs: https://reactnavigation.org/docs/typescript/
 export type NavParamType = {
@@ -22,20 +25,22 @@ export default function App(): React.JSX.Element {
   const Stack = createNativeStackNavigator<NavParamType>();
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Landing">
-        <Stack.Screen
-          name="Landing"
-          options={{headerShown: false}}
-          component={LandingPage}
-        />
-        <Stack.Screen
-          name="Drawer"
-          options={{headerShown: false}}
-          component={DrawerNav}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Landing">
+          <Stack.Screen
+            name="Landing"
+            options={{headerShown: false}}
+            component={LandingPage}
+          />
+          <Stack.Screen
+            name="Drawer"
+            options={{headerShown: false}}
+            component={DrawerNav}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
 
