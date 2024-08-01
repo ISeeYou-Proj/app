@@ -2,26 +2,18 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import LandingPage from './src/pages/Landingpage';
 import CameraPage from './src/pages/Camerapage';
 import ScreenshotPage from './src/pages/Screenshotpage';
 import UploadImagePage from './src/pages/Uploadimagepage';
-
-import EyeSetting from './src/pages/tutorialpage/Eyesetting';
-import Page2 from './src/pages/tutorialpage/Page2';
-import Page3 from './src/pages/tutorialpage/Page3';
+import SettingPage from './src/pages/Settingpage';
 
 // React Navigation TS docs: https://reactnavigation.org/docs/typescript/
 export type NavParamType = {
   Landing: undefined;
-  Iseeyou: undefined;
+  Drawer: undefined;
   Tutorial: undefined;
-};
-
-export type TutorialType = {
-  EyeSetting: undefined;
-  Page2: undefined;
-  Page3: undefined;
 };
 
 export default function App(): React.JSX.Element {
@@ -35,11 +27,10 @@ export default function App(): React.JSX.Element {
           options={{headerShown: false}}
           component={LandingPage}
         />
-        <Stack.Screen name="Iseeyou" component={BottomTabNav} />
         <Stack.Screen
-          name="Tutorial"
-          component={TutorialNav}
-          options={{title: '환영합니다'}}
+          name="Drawer"
+          options={{headerShown: false}}
+          component={DrawerNav}
         />
       </Stack.Navigator>
     </NavigationContainer>
@@ -50,7 +41,7 @@ const BottomTabNav = () => {
   const Tab = createBottomTabNavigator();
 
   return (
-    <Tab.Navigator>
+    <Tab.Navigator initialRouteName="Camera">
       <Tab.Screen
         name="Camera"
         options={{headerShown: false}}
@@ -61,35 +52,17 @@ const BottomTabNav = () => {
         options={{headerShown: false}}
         component={ScreenshotPage}
       />
-      <Tab.Screen
-        name="Uploadimage"
-        options={{headerShown: false}}
-        component={UploadImagePage}
-      />
     </Tab.Navigator>
   );
 };
 
-const TutorialNav = () => {
-  const Stack = createNativeStackNavigator();
-
+const DrawerNav = () => {
+  const Drawer = createDrawerNavigator();
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Eyesetting"
-        options={{headerShown: false}}
-        component={EyeSetting}
-      />
-      <Stack.Screen
-        name="Page2"
-        options={{headerShown: false}}
-        component={Page2}
-      />
-      <Stack.Screen
-        name="Page3"
-        options={{headerShown: false}}
-        component={Page3}
-      />
-    </Stack.Navigator>
+    <Drawer.Navigator initialRouteName="Iseeyou">
+      <Drawer.Screen name="Iseeyou" component={BottomTabNav} />
+      <Drawer.Screen name="Gallary" component={UploadImagePage} />
+      <Drawer.Screen name="Setting" component={SettingPage} />
+    </Drawer.Navigator>
   );
 };

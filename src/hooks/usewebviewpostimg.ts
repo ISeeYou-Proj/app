@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 import RNFS from 'react-native-fs';
 import Sound from 'react-native-sound';
 import {API_URL} from '../utils/apiurl';
+import {getStorage} from '../utils/asyncstorage';
 
 interface Props {
   captureImg: string;
@@ -29,12 +30,11 @@ export const useWebviewPostImg = ({captureImg, resetCaptureImage}: Props) => {
         const base64Img = await RNFS.readFile(captureImg, 'base64');
         setPrevBase64Img(`data:image/png;base64,${base64Img}`);
 
-        const postResponse = await axios.post(
-          `${API_URL}/webviewimage/totallyblind`,
-          {
-            image: `data:image/png;base64,${base64Img}`,
-          },
-        );
+        const imgApiEndpoint = await getStorage('imgApiEndpoint');
+        console.log('imgApiEndpoint', imgApiEndpoint);
+        const postResponse = await axios.post(`${API_URL}${imgApiEndpoint}`, {
+          image: `data:image/png;base64,${base64Img}`,
+        });
         const {msg, mp3}: {msg: string; mp3: string} = postResponse.data;
         console.log('msg: ', msg, 'mp3: ', mp3);
         setResponse(msg);
