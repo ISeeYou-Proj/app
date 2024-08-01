@@ -88,7 +88,14 @@ export default function SettingPage(): React.JSX.Element {
     <View className="w-full h-full mt-0 flex justify-center items-center">
       <View className="w-full h-full">
         <View className="mb-8">
-          <View className="w-full p-4 bg-custom-grey">
+          <View
+            className="w-full items-center flex-row p-4 bg-custom-grey"
+            accessible={true}>
+            <Image
+              className={'w-6 h-6 mr-4'}
+              source={require('../assets/displaymode.png')}
+              resizeMode="cover"
+            />
             <Text className="text-lg text-custom-black" accessible={true}>
               화면 모드 설정
             </Text>
@@ -146,7 +153,14 @@ export default function SettingPage(): React.JSX.Element {
           </View>
         </View>
         <View>
-          <View className="w-full p-4 bg-custom-grey">
+          <View
+            className="w-full flex-row justify-start items-center p-4 bg-custom-grey"
+            accessible={true}>
+            <Image
+              className={'w-6 h-6 mr-4'}
+              source={require('../assets/ttsspeed.png')}
+              resizeMode="cover"
+            />
             <Text className="text-lg text-custom-black" accessible={true}>
               안내 음성 속도
             </Text>
