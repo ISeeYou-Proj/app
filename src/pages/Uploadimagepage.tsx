@@ -80,7 +80,6 @@ export default function UploadImagePage(): React.JSX.Element {
         />
       )}
       <Record
-        isActive={isUploadImagePageActive}
         prevAnswer={aiResponse}
         setPrevAnswer={setAiResponse}
         prevBase64Img={prevBase64Img}

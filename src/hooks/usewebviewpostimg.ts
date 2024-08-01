@@ -27,13 +27,20 @@ export const useWebviewPostImg = ({captureImg, resetCaptureImage}: Props) => {
     const uploadImage = async () => {
       try {
         setLoading(true);
+        const displayMode = await getStorage('displayMode');
+        const ttsSpeed = await getStorage('ttsSpeed');
         const base64Img = await RNFS.readFile(captureImg, 'base64');
         setPrevBase64Img(`data:image/png;base64,${base64Img}`);
 
-        const imgApiEndpoint = await getStorage('imgApiEndpoint');
+        const imgApiEndpoint =
+          displayMode === 'totallyBlind'
+            ? '/webviewimage/totallyblind'
+            : '/webviewimage/lowvision';
         console.log('imgApiEndpoint', imgApiEndpoint);
         const postResponse = await axios.post(`${API_URL}${imgApiEndpoint}`, {
           image: `data:image/png;base64,${base64Img}`,
+          displayMode: displayMode,
+          ttsSpeed: ttsSpeed,
         });
         const {msg, mp3}: {msg: string; mp3: string} = postResponse.data;
         console.log('msg: ', msg, 'mp3: ', mp3);

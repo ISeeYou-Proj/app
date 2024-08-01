@@ -2,22 +2,23 @@ import Voice, {SpeechResultsEvent} from '@react-native-voice/voice';
 import React, {useEffect, useState} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {postSttText} from '../apis/poststttext';
+import {getStorage} from '../utils/asyncstorage';
 
 interface Props {
-  isActive: boolean;
   prevAnswer: string;
   prevBase64Img: string;
   setPrevAnswer: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function Record({
-  isActive,
   prevAnswer,
   prevBase64Img,
   setPrevAnswer,
 }: Props): React.JSX.Element {
   const [recordFlag, setRecordFlag] = useState<boolean | null>(null);
   const [recognizedText, setRecognizedText] = useState<string>('');
+  const [displayMode, setDisplayMode] = useState<string>('');
+  const [ttsSpeed, setTtsSpeed] = useState<string>('');
 
   const viewStyle = recordFlag ? 'bg-red-500' : '';
   const accessibility = recordFlag ? '녹음 종료 버튼' : '녹음 시작 버튼';
@@ -40,6 +41,20 @@ export default function Record({
     };
     Voice.onSpeechResults = onSpeechResults;
 
+    getStorage('displayMode').then(value => {
+      if (value !== null) {
+        setDisplayMode(value);
+        console.log('displayMode 업뎃 완료');
+      }
+    });
+
+    getStorage('ttsSpeed').then(value => {
+      if (value !== null) {
+        setTtsSpeed(value);
+        console.log('ttsSpeed 업뎃 완료');
+      }
+    });
+
     return () => {
       console.log('음성 인식 모듈 언마운트');
       Voice.destroy().then(Voice.removeAllListeners);
@@ -54,7 +69,7 @@ export default function Record({
         return;
       }
       // 음성 인식 시작 버튼 클릭 시
-      if (recordFlag && isActive) {
+      if (recordFlag) {
         setRecognizedText('');
         Voice.start('ko-KR')
           .then(() => {
@@ -64,7 +79,7 @@ export default function Record({
             console.log('음성 인식 에러', error);
           });
         // 음성 인식 종료 버튼 클릭 시
-      } else if (!recordFlag && isActive) {
+      } else if (!recordFlag) {
         Voice.stop()
           .then(() => {
             console.log('음성 인식 종료');
@@ -73,29 +88,17 @@ export default function Record({
               prevAnswer: prevAnswer,
               prevBase64Img: prevBase64Img,
               setPrevAnswer: setPrevAnswer,
+              displayMode: displayMode,
+              ttsSpeed: ttsSpeed,
             });
           })
           .catch(error => {
             console.log('녹음 종료 도중 문제 발생', error);
           });
-        // 다른 페이지로 이동 시
-      } else if (!isActive) {
-        Voice.destroy()
-          .then(() => {
-            console.log('다른 화면으로 이동해서 음성 인식 모듈 언마운트');
-            setRecordFlag(false);
-            setRecognizedText('');
-          })
-          .catch(error => {
-            console.log(
-              '다른 화면으로 이동해 모듈 언마운트 시도 => 실패',
-              error,
-            );
-          });
       }
     };
     handleStt();
-  }, [recordFlag, isActive]);
+  }, [recordFlag]);
 
   return (
     <View className="w-20 h-20 relative flex justify-center items-center">
