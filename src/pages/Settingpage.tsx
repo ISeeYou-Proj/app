@@ -81,15 +81,19 @@ export default function SettingPage(): React.JSX.Element {
               setDisplayMode(value);
             }}>
             <RadioButtonGroup.RadioButtonItem value="general">
-              <Text className="text-custom-black">
-                시각장애를 앓고 있지 않음
-              </Text>
+              <Text className="text-custom-black">끄기</Text>
             </RadioButtonGroup.RadioButtonItem>
             <RadioButtonGroup.RadioButtonItem value="lowVision">
-              <Text className="text-custom-black">저시력 시각장애</Text>
+              <Text className="text-custom-black">시력 저하 모드</Text>
             </RadioButtonGroup.RadioButtonItem>
             <RadioButtonGroup.RadioButtonItem value="totallyBlind">
-              <Text className="text-custom-black">전맹 시각장애</Text>
+              <Text className="text-custom-black">전맹 모드</Text>
+            </RadioButtonGroup.RadioButtonItem>
+            <RadioButtonGroup.RadioButtonItem value="redGreenColorBlind">
+              <Text className="text-custom-black">적록색맹 모드</Text>
+            </RadioButtonGroup.RadioButtonItem>
+            <RadioButtonGroup.RadioButtonItem value="totallyColorBlind">
+              <Text className="text-custom-black">전색맹 모드</Text>
             </RadioButtonGroup.RadioButtonItem>
           </RadioButtonGroup>
         </View>
