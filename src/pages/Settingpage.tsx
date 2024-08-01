@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import RadioButtonGroup from '../components/common/radiobutton/Radiobuttongroup';
+import DropDownPicker from 'react-native-dropdown-picker';
 import {getStorage, setStorage} from '../utils/asyncstorage';
 
 export default function SettingPage(): React.JSX.Element {
@@ -10,6 +11,14 @@ export default function SettingPage(): React.JSX.Element {
   const [ttsSpeed, setTtsSpeed] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [isBtnDisable, setIsBtnDisable] = useState<boolean>(true);
+  const [openDropdown, setOpenDropdown] = useState<boolean>(false);
+  const [dropdownValue, setDropdownValue] = useState([
+    {label: 'x1.0', value: '1.0'},
+    {label: 'x1.25', value: '1.25'},
+    {label: 'x1.5', value: '1.5'},
+    {label: 'x1.75', value: '1.75'},
+    {label: 'x2.0', value: '2.0'},
+  ]);
 
   /**
    * @description 변경된 설정을 async storage에 업데이트
@@ -44,13 +53,20 @@ export default function SettingPage(): React.JSX.Element {
         setLoading(false);
       }
     });
+    console.log(ttsSpeed, asyncTtsSpeed, displayMode, asyncDisplayMode);
   }, []);
 
   useEffect(() => {
-    setIsBtnDisable(
-      ttsSpeed === asyncTtsSpeed && displayMode === asyncDisplayMode,
-    );
+    if (ttsSpeed === asyncTtsSpeed && displayMode === asyncDisplayMode) {
+      setIsBtnDisable(true);
+    } else {
+      setIsBtnDisable(false);
+    }
   }, [ttsSpeed, displayMode]);
+
+  useEffect(() => {
+    console.log('isBtnDisable: ', isBtnDisable);
+  }, [isBtnDisable]);
 
   return loading ? (
     <View />
@@ -79,7 +95,14 @@ export default function SettingPage(): React.JSX.Element {
         </View>
         <View>
           <Text className="text-lg text-custom-black">안내 음성 속도</Text>
-          {/* 드롭다운 컴포넌트 라이브러리 설치하고 여기에 추가 */}
+          <DropDownPicker
+            open={openDropdown}
+            setOpen={setOpenDropdown}
+            items={dropdownValue}
+            value={ttsSpeed}
+            setValue={setTtsSpeed}
+            setItems={setDropdownValue}
+          />
         </View>
       </View>
       {isBtnDisable ? (

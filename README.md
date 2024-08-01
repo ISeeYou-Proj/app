@@ -95,6 +95,10 @@
 
 - [공식 문서](https://react-native-async-storage.github.io/async-storage/docs/install)
 
+#### 설정 창에서 TTS 속도를 선택할 수 있도록 하기 위한 react-native-dropdown-picker 라이브러리
+
+- [공식 문서](https://hossein-zare.github.io/react-native-dropdown-picker-website/)
+
 ---
 
 ## 안드로이드 .apk 빌드 참고
