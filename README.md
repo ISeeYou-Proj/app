@@ -29,7 +29,7 @@
 - react-native-view-shot: ^3.8.0
 - react-native-image-crop-picker: ^0.41.2
 - react-native-sound: ^0.11.2
-
+- react-native-async-storage/async-storage
 - axios: ^1.7.2
 
 ---
@@ -91,6 +91,10 @@
 #### 갤러리에서 이미지를 불러오기 위한 react-native-image-crop-picker 라이브러리
 
 - [공식 Github](https://github.com/ivpusic/react-native-image-crop-picker)
+
+#### 사용자의 설정 정보 등을 기록하기 위한 react-native-async-storage/async-storage 라이브러리
+
+- [공식 문서](https://react-native-async-storage.github.io/async-storage/docs/install)
 
 ---
 
