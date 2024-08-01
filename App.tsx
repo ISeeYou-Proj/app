@@ -2,15 +2,17 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import LandingPage from './src/pages/Landingpage';
 import CameraPage from './src/pages/Camerapage';
 import ScreenshotPage from './src/pages/Screenshotpage';
 import UploadImagePage from './src/pages/Uploadimagepage';
+import MenuPage from './src/pages/Menupage';
 
 // React Navigation TS docs: https://reactnavigation.org/docs/typescript/
 export type NavParamType = {
   Landing: undefined;
-  Iseeyou: undefined;
+  Drawer: undefined;
   Tutorial: undefined;
 };
 
@@ -31,7 +33,11 @@ export default function App(): React.JSX.Element {
           options={{headerShown: false}}
           component={LandingPage}
         />
-        <Stack.Screen name="Iseeyou" component={BottomTabNav} />
+        <Stack.Screen
+          name="Drawer"
+          options={{headerShown: false}}
+          component={DrawerNav}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -52,11 +58,17 @@ const BottomTabNav = () => {
         options={{headerShown: false}}
         component={ScreenshotPage}
       />
-      <Tab.Screen
-        name="Uploadimage"
-        options={{headerShown: false}}
-        component={UploadImagePage}
-      />
     </Tab.Navigator>
+  );
+};
+
+const DrawerNav = () => {
+  const Drawer = createDrawerNavigator();
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name="Iseeyou" component={BottomTabNav} />
+      <Drawer.Screen name="Menu" component={MenuPage} />
+      <Drawer.Screen name="Gallary" component={UploadImagePage} />
+    </Drawer.Navigator>
   );
 };

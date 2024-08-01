@@ -19,6 +19,9 @@
 - react-navigation/native: ^6.1.17
 - react-navigation/native-stack: ^6.10.0
 - react-navigation/bottom-tabs: ^6.6.0
+- react-navigation/drawer: ^6.7.2
+  - react-native-reanimated: ^3.14.0
+  - react-native-gesture-handler: ^2.18.0
 - nativewind: ^2.0.11
   - tailwindcss: 3.3.2 (devDependencies)
 - react-native-vision-camera: ^4.4.1
@@ -39,10 +42,6 @@
 #### 카메라 기능을 구현하기 위한 react-native-vision-camera 라이브러리
 
 - [공식 문서](https://react-native-vision-camera.com/docs/guides)
-
-#### 사진 촬영, 음성녹음 시작 기능을 물리 버튼(볼륨 업, 다운)으로 사용할 수 있도록 하기 위해 사용한 react-native-volume-manager 라이브러리
-
-- [공식 Github](https://github.com/hirbod/react-native-volume-manager)
 
 #### React Native에서 TailwindCSS를 사용하기 위한 Nativewind 라이브러리
 
