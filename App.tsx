@@ -7,10 +7,6 @@ import CameraPage from './src/pages/Camerapage';
 import ScreenshotPage from './src/pages/Screenshotpage';
 import UploadImagePage from './src/pages/Uploadimagepage';
 
-import EyeSetting from './src/pages/tutorialpage/Eyesetting';
-import Page2 from './src/pages/tutorialpage/Page2';
-import Page3 from './src/pages/tutorialpage/Page3';
-
 // React Navigation TS docs: https://reactnavigation.org/docs/typescript/
 export type NavParamType = {
   Landing: undefined;
@@ -36,11 +32,6 @@ export default function App(): React.JSX.Element {
           component={LandingPage}
         />
         <Stack.Screen name="Iseeyou" component={BottomTabNav} />
-        <Stack.Screen
-          name="Tutorial"
-          component={TutorialNav}
-          options={{title: '환영합니다'}}
-        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -67,29 +58,5 @@ const BottomTabNav = () => {
         component={UploadImagePage}
       />
     </Tab.Navigator>
-  );
-};
-
-const TutorialNav = () => {
-  const Stack = createNativeStackNavigator();
-
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Eyesetting"
-        options={{headerShown: false}}
-        component={EyeSetting}
-      />
-      <Stack.Screen
-        name="Page2"
-        options={{headerShown: false}}
-        component={Page2}
-      />
-      <Stack.Screen
-        name="Page3"
-        options={{headerShown: false}}
-        component={Page3}
-      />
-    </Stack.Navigator>
   );
 };

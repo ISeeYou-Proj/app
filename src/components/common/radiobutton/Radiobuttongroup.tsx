@@ -31,3 +31,19 @@ const RadioButtonGroup = (props: Props) => {
 RadioButtonGroup.RadioButtonItem = RadioButtonItem;
 
 export default RadioButtonGroup;
+
+// 사용 예시
+{
+  /* <RadioButtonGroup
+  selected={selected}
+  onSelected={value => {
+    setSelected(value);
+  }}>
+  <RadioButtonGroup.RadioButtonItem value="lowVision">
+    <Text className="text-custom-black">저시력 시각장애</Text>
+  </RadioButtonGroup.RadioButtonItem>
+  <RadioButtonGroup.RadioButtonItem value="totallyBlind">
+    <Text className="text-custom-black">전맹 시각장애</Text>
+  </RadioButtonGroup.RadioButtonItem>
+</RadioButtonGroup>; */
+}
