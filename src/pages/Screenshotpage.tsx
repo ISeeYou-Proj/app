@@ -1,13 +1,18 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {View, Text, TouchableOpacity, Image, Modal} from 'react-native';
+import React, {useCallback, useRef, useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Modal,
+  SafeAreaView,
+} from 'react-native';
 import {WebView} from 'react-native-webview';
 import ViewShot from 'react-native-view-shot';
-import {useIsFocused} from '@react-navigation/native';
 import {useWebviewPostImg} from '../hooks/usewebviewpostimg';
 import Record from '../components/Record';
 
 export default function ScreenshotPage(): React.JSX.Element {
-  const isWebviewActive = useIsFocused();
   const captureRef = useRef<ViewShot | null>(null);
   const webViewRef = useRef<WebView | null>(null);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -58,8 +63,8 @@ export default function ScreenshotPage(): React.JSX.Element {
   }, []);
 
   return (
-    <View className="w-full h-full">
-      <View className="w-full h-3/4">
+    <SafeAreaView className="w-full h-full relative bg-white">
+      <View className="w-full h-5/6 mt-12">
         <ViewShot
           ref={captureRef}
           options={{format: 'jpg', quality: 0.9}}
@@ -73,26 +78,36 @@ export default function ScreenshotPage(): React.JSX.Element {
           />
         </ViewShot>
       </View>
-      <View className="w-full h-1/4 mt-4 flex flex-row justify-center items-center">
+      <View className="w-full h-14 absolute bottom-0 mt-4 mx-2 flex flex-row justify-between items-center">
         <TouchableOpacity
           onPress={takeScreenShot}
-          className="p-2 m-2 bg-custom-deepblue rounded-lg flex justify-center items-center">
-          <Text className="text-custom-white">캡쳐 버튼</Text>
+          className="p-2 m-2 flex justify-center items-center">
+          <Image
+            source={require('../assets/camera_bold.png')}
+            className="w-8 h-8"
+          />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={goBack}
-          className="p-2 m-2 bg-custom-deepblue rounded-lg flex justify-center items-center">
-          <Text className="text-custom-white">뒤로 가기 버튼</Text>
+          className="p-1 m-1 flex justify-center items-center">
+          <Image
+            source={require('../assets/back_btn.png')}
+            className="w-8 h-8"
+          />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={goForward}
-          className="p-2 m-2 bg-custom-deepblue rounded-lg flex justify-center items-center">
-          <Text className="text-custom-white">앞으로 가기 버튼</Text>
+          className="p-1 m-1 flex justify-center items-center">
+          <Image
+            source={require('../assets/front_btn.png')}
+            className="w-8 h-8"
+          />
         </TouchableOpacity>
         <Record
           prevAnswer={aiCaptureResult}
           setPrevAnswer={setAiCaptureResult}
           prevBase64Img={prevBase64Img}
+          width="8"
         />
       </View>
       <Modal visible={isModalVisible}>
@@ -110,6 +125,6 @@ export default function ScreenshotPage(): React.JSX.Element {
           </TouchableOpacity>
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }

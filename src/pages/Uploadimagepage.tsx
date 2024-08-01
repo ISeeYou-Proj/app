@@ -65,7 +65,7 @@ export default function UploadImagePage(): React.JSX.Element {
   };
 
   return (
-    <View className="w-full h-full flex justify-center items-center">
+    <View className="w-full h-full pt-4 flex justify-center items-center bg-white">
       <Text className="text-xl text-custom-black">
         업로드 이미지 페이지 입니다.
       </Text>
@@ -83,11 +83,19 @@ export default function UploadImagePage(): React.JSX.Element {
         prevAnswer={aiResponse}
         setPrevAnswer={setAiResponse}
         prevBase64Img={prevBase64Img}
+        width="16"
       />
       <TouchableOpacity
-        onPress={getImage}
-        className="w-48 p-4 m-4 bg-custom-blue items-center rounded-2xl">
-        <Text className="text-custom-white">이미지 가져오기</Text>
+        className="bg-custom-skyblue p-4 rounded-2xl flex flex-row justify-center items-center"
+        onPress={getImage}>
+        <Image
+          source={require('../assets/save_setting.png')}
+          className="w-8 h-8 mr-2"
+          resizeMode="contain"
+        />
+        <Text className="ml-2 text-lg font-bold text-custom-black">
+          이미지 업로드
+        </Text>
       </TouchableOpacity>
     </View>
   );

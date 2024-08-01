@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Text, TouchableOpacity, View, Image} from 'react-native';
 import RadioButtonGroup from '../components/common/radiobutton/Radiobuttongroup';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {getStorage, setStorage} from '../utils/asyncstorage';
@@ -71,34 +71,62 @@ export default function SettingPage(): React.JSX.Element {
   return loading ? (
     <View />
   ) : (
-    <View className="w-full h-full flex justify-center items-center p-8">
+    <View className="w-full h-full mt-24 flex justify-center items-center p-8">
       <View className="w-full h-full">
         <View className="mb-8">
-          <Text className="text-lg text-custom-black">화면 모드 설정</Text>
+          <Text className="text-lg text-custom-black" accessible={true}>
+            화면 모드 설정
+          </Text>
           <RadioButtonGroup
             selected={displayMode}
             onSelected={value => {
               setDisplayMode(value);
             }}>
-            <RadioButtonGroup.RadioButtonItem value="general">
+            <RadioButtonGroup.RadioButtonItem
+              value="general"
+              accessibilityRole="radio"
+              accessibilityState={{checked: displayMode === 'general'}}
+              accessibilityLabel="끄기">
               <Text className="text-custom-black">끄기</Text>
             </RadioButtonGroup.RadioButtonItem>
-            <RadioButtonGroup.RadioButtonItem value="lowVision">
+            <RadioButtonGroup.RadioButtonItem
+              value="lowVision"
+              accessibilityRole="radio"
+              accessibilityState={{checked: displayMode === 'lowVision'}}
+              accessibilityLabel="시력 저하 모드">
               <Text className="text-custom-black">시력 저하 모드</Text>
             </RadioButtonGroup.RadioButtonItem>
-            <RadioButtonGroup.RadioButtonItem value="totallyBlind">
+            <RadioButtonGroup.RadioButtonItem
+              value="totallyBlind"
+              accessibilityRole="radio"
+              accessibilityState={{checked: displayMode === 'totallyBlind'}}
+              accessibilityLabel="전맹 모드">
               <Text className="text-custom-black">전맹 모드</Text>
             </RadioButtonGroup.RadioButtonItem>
-            <RadioButtonGroup.RadioButtonItem value="redGreenColorBlind">
+            <RadioButtonGroup.RadioButtonItem
+              value="redGreenColorBlind"
+              accessibilityRole="radio"
+              accessibilityState={{
+                checked: displayMode === 'redGreenColorBlind',
+              }}
+              accessibilityLabel="적록색맹 모드">
               <Text className="text-custom-black">적록색맹 모드</Text>
             </RadioButtonGroup.RadioButtonItem>
-            <RadioButtonGroup.RadioButtonItem value="totallyColorBlind">
+            <RadioButtonGroup.RadioButtonItem
+              value="totallyColorBlind"
+              accessibilityRole="radio"
+              accessibilityState={{
+                checked: displayMode === 'totallyColorBlind',
+              }}
+              accessibilityLabel="전색맹 모드">
               <Text className="text-custom-black">전색맹 모드</Text>
             </RadioButtonGroup.RadioButtonItem>
           </RadioButtonGroup>
         </View>
         <View>
-          <Text className="text-lg text-custom-black">안내 음성 속도</Text>
+          <Text className="text-lg text-custom-black" accessible={true}>
+            안내 음성 속도
+          </Text>
           <DropDownPicker
             open={openDropdown}
             setOpen={setOpenDropdown}
@@ -113,9 +141,16 @@ export default function SettingPage(): React.JSX.Element {
         <View />
       ) : (
         <TouchableOpacity
-          className="absolute bottom-20 bg-custom-skyblue p-4 rounded-2xl"
+          className="absolute bottom-40 bg-custom-skyblue p-4 rounded-2xl flex flex-row justify-center items-center"
           onPress={saveNewSetting}>
-          <Text className="text-lg text-custom-black">저장하기</Text>
+          <Image
+            source={require('../assets/save_setting.png')}
+            className="w-8 h-8 mr-2"
+            resizeMode="contain"
+          />
+          <Text className="ml-2 text-lg font-bold text-custom-black">
+            저장하기
+          </Text>
         </TouchableOpacity>
       )}
     </View>

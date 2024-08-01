@@ -7,6 +7,23 @@ interface props {
   children?: React.ReactNode;
   disabled?: boolean;
   containerStyle?: ViewStyle;
+  accessibilityRole:
+    | 'button'
+    | 'checkbox'
+    | 'radio'
+    | 'text'
+    | 'link'
+    | 'header'
+    | 'search';
+
+  accessibilityState?: {
+    checked?: boolean;
+    selected?: boolean;
+    disabled?: boolean;
+    expanded?: boolean;
+    busy?: boolean;
+  };
+  accessibilityLabel?: string;
 }
 
 const RadioButtonItem = (props: props) => {
@@ -30,7 +47,12 @@ const RadioButtonItem = (props: props) => {
           onSelected(value);
         }
       }}
-      style={[styles.radioButtonItemContainer, containerStyle]}>
+      style={[styles.radioButtonItemContainer, containerStyle]}
+      accessibilityRole={props.accessibilityRole}
+      accessibilityState={
+        props.accessibilityState || {checked: isSelected(), disabled: disabled}
+      }
+      accessibilityLabel={props.accessibilityLabel || `Option ${value}`}>
       <View
         className={
           isSelected()

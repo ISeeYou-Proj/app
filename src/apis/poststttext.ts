@@ -42,6 +42,7 @@ export const postSttText = ({
       ttsSpeed: ttsSpeed,
     })
     .then((res: Response) => {
+      console.log('사용된 이미지: ', prevBase64Img.substring(0, 30));
       const {msg, mp3} = res.data;
       console.log('msg: ', msg, ' mp3: ', mp3);
       setPrevAnswer(msg);
