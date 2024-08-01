@@ -97,3 +97,7 @@
 - [공식 문서](https://react-native-async-storage.github.io/async-storage/docs/install)
 
 ---
+
+## 안드로이드 .apk 빌드 참고
+
+- [react native android app build](https://velog.io/@gth1123/react-native-android-app-build)

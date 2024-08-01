@@ -20,7 +20,8 @@ export default function LandingPage({navigation}: Props): React.JSX.Element {
               index: 1,
               routes: [
                 {
-                  name: 'Tutorial',
+                  name: 'Iseeyou',
+                  // 추후 Tutorial로 변경 필요
                 },
               ],
             }),
