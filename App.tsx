@@ -7,19 +7,13 @@ import LandingPage from './src/pages/Landingpage';
 import CameraPage from './src/pages/Camerapage';
 import ScreenshotPage from './src/pages/Screenshotpage';
 import UploadImagePage from './src/pages/Uploadimagepage';
-import MenuPage from './src/pages/Menupage';
+import SettingPage from './src/pages/Settingpage';
 
 // React Navigation TS docs: https://reactnavigation.org/docs/typescript/
 export type NavParamType = {
   Landing: undefined;
   Drawer: undefined;
   Tutorial: undefined;
-};
-
-export type TutorialType = {
-  EyeSetting: undefined;
-  Page2: undefined;
-  Page3: undefined;
 };
 
 export default function App(): React.JSX.Element {
@@ -47,7 +41,7 @@ const BottomTabNav = () => {
   const Tab = createBottomTabNavigator();
 
   return (
-    <Tab.Navigator>
+    <Tab.Navigator initialRouteName="Camera">
       <Tab.Screen
         name="Camera"
         options={{headerShown: false}}
@@ -65,10 +59,10 @@ const BottomTabNav = () => {
 const DrawerNav = () => {
   const Drawer = createDrawerNavigator();
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator initialRouteName="Iseeyou">
       <Drawer.Screen name="Iseeyou" component={BottomTabNav} />
-      <Drawer.Screen name="Menu" component={MenuPage} />
       <Drawer.Screen name="Gallary" component={UploadImagePage} />
+      <Drawer.Screen name="Setting" component={SettingPage} />
     </Drawer.Navigator>
   );
 };
