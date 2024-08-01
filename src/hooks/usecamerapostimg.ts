@@ -7,12 +7,17 @@ import {API_URL} from '../utils/apiurl';
 interface Props {
   imagePath: string;
   resetImgPath: () => void;
+  setPrevBase64Img: React.Dispatch<React.SetStateAction<string>>;
+  setPrevAnswer: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // 이미지 경로를 입력받아 base64로 인코딩해서 서버로 전송
-export const useCameraPostImg = ({imagePath, resetImgPath}: Props) => {
-  const [response, setResponse] = useState<string>('');
-  const [prevBase64Img, setPrevBase64Img] = useState<string>('');
+export const useCameraPostImg = ({
+  imagePath,
+  resetImgPath,
+  setPrevBase64Img,
+  setPrevAnswer,
+}: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -29,7 +34,7 @@ export const useCameraPostImg = ({imagePath, resetImgPath}: Props) => {
         });
         const {msg, mp3}: {msg: string; mp3: string} = postResponse.data;
         console.log('msg: ', msg, 'mp3: ', mp3);
-        setResponse(msg);
+        setPrevAnswer(msg);
 
         const ttsMp3 = new Sound(`${API_URL}${mp3}`, undefined, error => {
           if (error) {
@@ -58,6 +63,4 @@ export const useCameraPostImg = ({imagePath, resetImgPath}: Props) => {
   useEffect(() => {
     console.log('loading: ', loading);
   }, [loading]);
-
-  return {response, setResponse, prevBase64Img};
 };

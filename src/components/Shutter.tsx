@@ -1,17 +1,20 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {Camera} from 'react-native-vision-camera';
 import {useCameraPostImg} from '../hooks/usecamerapostimg';
 
 interface Props {
   cameraRef: null | React.RefObject<Camera>;
-  isCamPageActive: boolean;
-  // handleClickShutter: () => {};
+  isActive: boolean;
+  setPrevAnswer: React.Dispatch<React.SetStateAction<string>>;
+  setPrevBase64Img: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function Shutter({
   cameraRef,
-  isCamPageActive,
+  isActive,
+  setPrevAnswer,
+  setPrevBase64Img,
 }: Props): React.JSX.Element {
   const isTakePhoto = useRef<boolean>(false);
   const [imagePath, setImagePath] = useState<string>('');
@@ -24,7 +27,7 @@ export default function Shutter({
    * @description 사진촬영 버튼을 누르면, 사진을 찍고 imagePath를 업데이트하는 함수
    */
   const handleClickShutter = () => {
-    if (cameraRef?.current && isCamPageActive) {
+    if (cameraRef?.current && isActive) {
       isTakePhoto.current = true;
       cameraRef.current
         .takePhoto({flash: 'auto'})
@@ -41,9 +44,11 @@ export default function Shutter({
     }
   };
 
-  const {response, setResponse, prevBase64Img} = useCameraPostImg({
+  useCameraPostImg({
     imagePath,
     resetImgPath,
+    setPrevBase64Img,
+    setPrevAnswer,
   });
 
   return (
