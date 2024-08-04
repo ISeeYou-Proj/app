@@ -1,21 +1,19 @@
 import React from 'react';
-import {View, ActivityIndicator, StyleSheet} from 'react-native';
+import {View, ActivityIndicator} from 'react-native';
 
-const LoadingSpinner = () => {
-  return (
-    <View style={styles.container}>
-      <ActivityIndicator size="large" color="#444" />
-    </View>
-  );
-};
+interface Props {
+  isLoading: boolean;
+}
 
-const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-  },
+export default React.memo(function LoadingSpinner({isLoading}: Props) {
+  console.log('LoadingSpinner isLoading: ', isLoading);
+  if (isLoading) {
+    return (
+      <View className="w-full h-full absolute inset-0 flex justify-center items-center brightness-50 z-50">
+        <ActivityIndicator size="large" color="#40A3FF" className="scale-150" />
+      </View>
+    );
+  } else {
+    return null;
+  }
 });
-
-export default LoadingSpinner;
