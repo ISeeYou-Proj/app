@@ -41,7 +41,7 @@ function RenderModal({
     <View className="w-full h-2/3 flex relative items-center mt-52 bg-white">
       <View className="w-full h-4/5 absolute top-0 overflow-hidden">
         <Image
-          className="flex-1 rotate-90"
+          className="flex-1 scale-75"
           source={{uri: base64Img}}
           resizeMode="center"
         />
@@ -110,26 +110,16 @@ export default function ResultModal({
       onRequestClose={toggleModalState}
       transparent={true}>
       <Loadingspinner isLoading={isLoading} />
-      {!isLoading &&
-        (displayMode === 'general' ? (
-          <RenderModal
-            base64Img={reqBase64Img}
-            answer={answer}
-            recordFlag={recordFlag}
-            isRecordLoading={isRecordLoading}
-            toggleModalState={toggleModalState}
-            toggleRecordFlag={toggleRecordFlag}
-          />
-        ) : displayMode !== 'general' && displayMode !== 'totallyBlind' ? (
-          <RenderModal
-            base64Img={resBase64Img}
-            answer={answer}
-            recordFlag={recordFlag}
-            isRecordLoading={isRecordLoading}
-            toggleModalState={toggleModalState}
-            toggleRecordFlag={toggleRecordFlag}
-          />
-        ) : null)}
+      {!isLoading && (
+        <RenderModal
+          base64Img={resBase64Img}
+          answer={answer}
+          recordFlag={recordFlag}
+          isRecordLoading={isRecordLoading}
+          toggleModalState={toggleModalState}
+          toggleRecordFlag={toggleRecordFlag}
+        />
+      )}
     </Modal>
   );
 }

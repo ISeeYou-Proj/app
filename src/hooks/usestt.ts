@@ -1,4 +1,5 @@
 import Voice, {SpeechResultsEvent} from '@react-native-voice/voice';
+import {useFocusEffect} from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
 
 export const useStt = (
@@ -27,20 +28,24 @@ export const useStt = (
     }
   };
 
-  useEffect(() => {
-    console.log('음성 인식 모듈 마운트');
-    const onSpeechResults = (e: SpeechResultsEvent) => {
-      if (e.value && e.value.length > 0) {
-        setRecognizedTxt(e.value[0]);
-      }
-    };
-    Voice.onSpeechResults = onSpeechResults;
+  // useFocusEffect는 리액트 네이티브 네비게이션 라이브러리에서 제공된다. 페이지가 Focus 되면 해당 effect가 실행되고,
+  // 페이지가 Blur 되면 cleanup 함수가 동작한다.
+  useFocusEffect(
+    useCallback(() => {
+      console.log('새로운 음성 인식 모듈 마운트');
+      const onSpeechResults = (e: SpeechResultsEvent) => {
+        if (e.value && e.value.length > 0) {
+          setRecognizedTxt(e.value[0]);
+        }
+      };
+      Voice.onSpeechResults = onSpeechResults;
 
-    return () => {
-      console.log('음성 인식 모듈 언마운트');
-      Voice.destroy().then(Voice.removeAllListeners);
-    };
-  }, []);
+      return () => {
+        console.log('기존 음성 인식 모듈 언마운트');
+        Voice.destroy().then(Voice.removeAllListeners);
+      };
+    }, []),
+  );
 
   useEffect(() => {
     const handleStt = async () => {
