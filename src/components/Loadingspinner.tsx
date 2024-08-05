@@ -6,7 +6,6 @@ interface Props {
 }
 
 export default React.memo(function LoadingSpinner({isLoading}: Props) {
-  console.log('LoadingSpinner isLoading: ', isLoading);
   if (isLoading) {
     return (
       <View className="w-full h-full absolute flex justify-center items-center brightness-90 z-50">

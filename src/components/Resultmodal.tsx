@@ -33,6 +33,10 @@ function RenderModal({
   toggleModalState,
   toggleRecordFlag,
 }: RenderProps): React.JSX.Element {
+  useEffect(() => {
+    console.log('isRecordLoading: ', isRecordLoading);
+  }, [isRecordLoading]);
+
   return (
     <View className="w-full h-2/3 flex relative items-center mt-52 bg-white">
       <View className="w-full h-4/5 absolute top-0 overflow-hidden">
@@ -94,6 +98,10 @@ export default function ResultModal({
       }
     });
   }, []);
+
+  useEffect(() => {
+    console.log('isLoading: ', isLoading);
+  }, [isLoading]);
 
   return (
     <Modal

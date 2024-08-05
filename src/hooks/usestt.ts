@@ -19,13 +19,13 @@ export const useStt = (
   /**
    * @description recordFlag state를 true <--> false 바꿔주는 함수
    */
-  const toggleRecordFlag = useCallback(() => {
+  const toggleRecordFlag = () => {
     if (recordFlag === null || !recordFlag) {
       setRecordFlag(true);
     } else if (recordFlag) {
       setRecordFlag(false);
     }
-  }, [setRecordFlag]);
+  };
 
   useEffect(() => {
     console.log('음성 인식 모듈 마운트');
