@@ -1,6 +1,6 @@
-import React, {useRef, useState} from 'react';
-import {View} from 'react-native';
-import {useIsFocused} from '@react-navigation/native';
+import React, {useEffect, useRef, useState} from 'react';
+import {View, Text} from 'react-native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {
   Camera,
   useCameraDevice,
@@ -13,9 +13,11 @@ import Shutter from '../components/Shutter';
 import Record from '../components/Record';
 import {useCameraShot} from '../hooks/usecamerashot';
 import LoadingSpinner from '../components/Loadingspinner';
+import {useRecord} from '../hooks/userecord';
 
 export default function CameraPage(): React.JSX.Element {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigation = useNavigation();
   const isCamPageActive = useIsFocused();
   const camDevice = useCameraDevice('back');
   const {hasPermission, requestPermission} = useCameraPermission();
@@ -24,8 +26,29 @@ export default function CameraPage(): React.JSX.Element {
   ]);
   const camRef = useRef<Camera>(null);
 
-  const {answer, reqBase64Img, resBase64Img, handleClickShutter} =
-    useCameraShot(setIsLoading, camRef);
+  // 사진 촬영 커스텀 훅
+  const {
+    answer,
+    setAnswer,
+    reqBase64Img,
+    resBase64Img,
+    handleClickShutter,
+    resetCamState,
+  } = useCameraShot(setIsLoading, camRef);
+
+  // 음성 인식 커스텀 훅
+  const {recognizedTxt, recordFlag, toggleRecordFlag, resetSttState} =
+    useRecord(answer, setAnswer, reqBase64Img, isLoading, setIsLoading);
+
+  // Focus가 blur 되면 state를 리셋
+  useEffect(
+    () =>
+      navigation.addListener('blur', () => {
+        resetCamState();
+        resetSttState();
+      }),
+    [],
+  );
 
   if (!hasPermission) {
     return <PermissionComponent requestPermission={requestPermission} />;
@@ -43,15 +66,15 @@ export default function CameraPage(): React.JSX.Element {
           isActive={isCamPageActive}
           format={photoFormat}
         />
+        <View className="w-full flex items-center absolute bottom-40">
+          <Text className="text-custom-black text-2xl mb-2">
+            음성인식: {recognizedTxt}, 현재녹음중?: {JSON.stringify(recordFlag)}
+          </Text>
+        </View>
         <View className="w-full h=1/3 p-4 flex flex-row justify-between items-center absolute bottom-10">
           <View className="w-20 h-20" />
           <Shutter handleClickShutter={handleClickShutter} />
-          {/* <Record
-            prevAnswer={prevAnswer}
-            setPrevAnswer={setPrevAnswer}
-            prevBase64Img={prevBase64Img}
-            width="20"
-          /> */}
+          <Record recordFlag={recordFlag} toggleRecordFlag={toggleRecordFlag} />
         </View>
       </View>
     );

@@ -16,6 +16,17 @@ export const useCameraShot = (
   const [imagePath, setImagePath] = useState<string>('');
 
   /**
+   * @description Focus가 blur 되면 실행할 리셋함수
+   */
+  const resetCamState = () => {
+    console.log('resetCamState 함수 시작');
+    setAnswer('');
+    setReqBase64Img('');
+    setResBase64Img('');
+    setImagePath('');
+  };
+
+  /**
    * @description imagePath 상태를 초기화하는 함수
    */
   const resetImgPath = () => {
@@ -48,27 +59,36 @@ export const useCameraShot = (
           const displayMode = await getStorage('displayMode');
           const ttsSpeed = await getStorage('ttsSpeed');
           const base64Img = await RNFS.readFile(imagePath, 'base64');
+          resetImgPath();
           setReqBase64Img(`data:image/png;base64,${base64Img}`);
-          const postResponse = await axios.post(`${API_URL}/cameraimage`, {
+          const response = await axios.post(`${API_URL}/cameraimage`, {
             image: `data:image/png;base64,${base64Img}`,
             displayMode: displayMode,
             ttsSpeed: ttsSpeed,
           });
-          const {msg, mp3, image}: {msg: string; mp3: string; image: string} =
-            postResponse.data;
-          setAnswer(msg);
-          setResBase64Img(image);
-          setIsLoading(false);
-          playMp3File(mp3);
+          // todo: setTimeout은 제거할 예정
+          setTimeout(() => {
+            const {msg, mp3, image}: {msg: string; mp3: string; image: string} =
+              response.data;
+            setAnswer(msg);
+            setResBase64Img(image);
+            setIsLoading(false);
+            playMp3File(mp3);
+          }, 2000);
         } catch (e) {
           console.error('POST API에서 에러 발생', e);
-        } finally {
-          resetImgPath();
         }
       }
     };
     uploadImage();
   }, [imagePath]);
 
-  return {answer, reqBase64Img, resBase64Img, handleClickShutter};
+  return {
+    answer,
+    setAnswer,
+    reqBase64Img,
+    resBase64Img,
+    handleClickShutter,
+    resetCamState,
+  };
 };
