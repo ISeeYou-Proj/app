@@ -18,7 +18,7 @@ export const setStorage = async (key: string, value: string): Promise<void> => {
 export const getStorage = async (key: string): Promise<string | null> => {
   try {
     const value = await AsyncStorage.getItem(key);
-    console.log('불러오기 완료');
+    console.log(`${key} 불러오기 완료`);
     return value;
   } catch (e) {
     console.error('getStorageError: ', e);
