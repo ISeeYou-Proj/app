@@ -13,6 +13,7 @@ interface Props {
 // 이미지 경로를 입력받아 base64로 인코딩해서 서버로 전송
 export const useWebviewPostImg = ({captureImg, resetCaptureImage}: Props) => {
   const [response, setResponse] = useState<string>('');
+  const [changeBase64, setChangeBase64] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [prevBase64Img, setPrevBase64Img] = useState<string>('');
 
@@ -42,9 +43,20 @@ export const useWebviewPostImg = ({captureImg, resetCaptureImage}: Props) => {
           displayMode: displayMode,
           ttsSpeed: ttsSpeed,
         });
-        const {msg, mp3}: {msg: string; mp3: string} = postResponse.data;
+        const {
+          msg,
+          mp3,
+          changeBase64,
+        }: {msg: string; mp3: string; changeBase64?: string} =
+          postResponse.data;
         console.log('msg: ', msg, 'mp3: ', mp3);
         setResponse(msg);
+
+        if (changeBase64 !== undefined) {
+          setChangeBase64(changeBase64);
+        } else {
+          setChangeBase64('');
+        }
 
         const ttsMp3 = new Sound(`${API_URL}${mp3}`, undefined, error => {
           if (error) {
@@ -77,5 +89,5 @@ export const useWebviewPostImg = ({captureImg, resetCaptureImage}: Props) => {
     console.log('loading: ', loading);
   }, [loading]);
 
-  return {response, setResponse, prevBase64Img};
+  return {response, setResponse, prevBase64Img, changeBase64};
 };
