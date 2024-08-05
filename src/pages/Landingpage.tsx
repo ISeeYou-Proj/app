@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {CommonActions} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {SafeAreaView, Text, Image} from 'react-native';
+import {Image} from 'react-native';
 import {NavParamType} from '../../App';
 import {getStorage, setStorage} from '../utils/asyncstorage';
 
