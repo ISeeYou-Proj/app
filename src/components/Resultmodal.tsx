@@ -48,13 +48,13 @@ function RenderModal({
         {!isRecordLoading && (
           <TouchableOpacity
             onPress={toggleModalState}
-            className="absolute top-0 right-0 p-2"
+            className="absolute top-2 right-2 p-2"
             accessible={true}
             accessibilityLabel="팝업 닫기 버튼">
             <Image
-              className="w-12 h-12 p-2"
+              className="w-8 h-8 p-2"
               source={require('../assets/exit.png')}
-              resizeMode="center"
+              resizeMode="contain"
             />
           </TouchableOpacity>
         )}
