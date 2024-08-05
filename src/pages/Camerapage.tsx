@@ -68,6 +68,7 @@ export default function CameraPage(): React.JSX.Element {
           photo={true}
           isActive={isCamPageActive}
           format={photoFormat}
+          enableZoomGesture={true}
         />
         <View className="w-full h=1/3 p-4 flex flex-row justify-center items-center absolute bottom-10">
           <Shutter handleClickShutter={handleClickShutter} />
