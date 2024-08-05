@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useStt} from './usestt';
 import {getStorage} from '../utils/asyncstorage';
 import axios from 'axios';
@@ -9,17 +9,16 @@ export const useRecord = (
   answer: string,
   setAnswer: React.Dispatch<React.SetStateAction<string>>,
   reqBase64Img: string,
-  isLoading: boolean,
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
+  const [isRecordLoading, setIsRecordLoading] = useState<boolean>(false);
   // 음성 인식 결과 state와, 녹음 상태 setState 함수 반환하는 커스텀 훅
   const {recognizedTxt, recordFlag, toggleRecordFlag, resetSttState} =
-    useStt(setIsLoading);
+    useStt(setIsRecordLoading);
 
   useEffect(() => {
     const uploadVoice = async () => {
       try {
-        if (recognizedTxt !== '' && !recordFlag && isLoading) {
+        if (recognizedTxt !== '' && !recordFlag && isRecordLoading) {
           console.log('uploadVoice 함수 시작');
           const displayMode = await getStorage('displayMode');
           const ttsSpeed = await getStorage('ttsSpeed');
@@ -34,7 +33,7 @@ export const useRecord = (
           setTimeout(() => {
             const {msg, mp3} = response.data;
             setAnswer(msg);
-            setIsLoading(false);
+            setIsRecordLoading(false);
             playMp3File(mp3);
           }, 2000);
         }
@@ -43,7 +42,7 @@ export const useRecord = (
       }
     };
     uploadVoice();
-  }, [recognizedTxt, recordFlag, isLoading]);
+  }, [recognizedTxt, recordFlag, isRecordLoading]);
 
-  return {recognizedTxt, recordFlag, toggleRecordFlag, resetSttState};
+  return {isRecordLoading, recordFlag, toggleRecordFlag, resetSttState};
 };

@@ -25,7 +25,7 @@ export const useStt = (
     } else if (recordFlag) {
       setRecordFlag(false);
     }
-  }, [recordFlag]);
+  }, [setRecordFlag]);
 
   useEffect(() => {
     console.log('음성 인식 모듈 마운트');

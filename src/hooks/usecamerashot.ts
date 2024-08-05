@@ -5,6 +5,7 @@ import {getStorage} from '../utils/asyncstorage';
 import axios from 'axios';
 import {API_URL} from '../utils/apiurl';
 import {playMp3File} from '../utils/playmp3file';
+import {useModalState} from './usemodalstate';
 
 export const useCameraShot = (
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
@@ -14,6 +15,7 @@ export const useCameraShot = (
   const [reqBase64Img, setReqBase64Img] = useState<string>('');
   const [resBase64Img, setResBase64Img] = useState<string>('');
   const [imagePath, setImagePath] = useState<string>('');
+  const {isModalVisible, toggleModalState} = useModalState();
 
   /**
    * @description Focus가 blur 되면 실행할 리셋함수
@@ -74,6 +76,7 @@ export const useCameraShot = (
             setResBase64Img(image);
             setIsLoading(false);
             playMp3File(mp3);
+            toggleModalState();
           }, 2000);
         } catch (e) {
           console.error('POST API에서 에러 발생', e);
@@ -86,6 +89,8 @@ export const useCameraShot = (
   return {
     answer,
     setAnswer,
+    isModalVisible,
+    toggleModalState,
     reqBase64Img,
     resBase64Img,
     handleClickShutter,

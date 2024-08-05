@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {
   Camera,
@@ -10,10 +10,10 @@ import {
 import PermissionComponent from '../components/Permissioncomp';
 import NocamComponent from '../components/Nocamcomp';
 import Shutter from '../components/Shutter';
-import Record from '../components/Record';
 import {useCameraShot} from '../hooks/usecamerashot';
 import LoadingSpinner from '../components/Loadingspinner';
 import {useRecord} from '../hooks/userecord';
+import ResultModal from '../components/Resultmodal';
 
 export default function CameraPage(): React.JSX.Element {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -30,6 +30,8 @@ export default function CameraPage(): React.JSX.Element {
   const {
     answer,
     setAnswer,
+    isModalVisible,
+    toggleModalState,
     reqBase64Img,
     resBase64Img,
     handleClickShutter,
@@ -37,13 +39,14 @@ export default function CameraPage(): React.JSX.Element {
   } = useCameraShot(setIsLoading, camRef);
 
   // 음성 인식 커스텀 훅
-  const {recognizedTxt, recordFlag, toggleRecordFlag, resetSttState} =
-    useRecord(answer, setAnswer, reqBase64Img, isLoading, setIsLoading);
+  const {isRecordLoading, recordFlag, toggleRecordFlag, resetSttState} =
+    useRecord(answer, setAnswer, reqBase64Img);
 
   // Focus가 blur 되면 state를 리셋
   useEffect(
     () =>
       navigation.addListener('blur', () => {
+        console.log('CameraPage가 blur 되어 state들을 초기화합니다.');
         resetCamState();
         resetSttState();
       }),
@@ -57,7 +60,7 @@ export default function CameraPage(): React.JSX.Element {
   } else {
     return (
       <View className="flex-1 relative">
-        <LoadingSpinner isLoading={isLoading} />
+        {isLoading && <LoadingSpinner isLoading={isLoading} />}
         <Camera
           className="w-full h-full"
           device={camDevice}
@@ -66,16 +69,20 @@ export default function CameraPage(): React.JSX.Element {
           isActive={isCamPageActive}
           format={photoFormat}
         />
-        <View className="w-full flex items-center absolute bottom-40">
-          <Text className="text-custom-black text-2xl mb-2">
-            음성인식: {recognizedTxt}, 현재녹음중?: {JSON.stringify(recordFlag)}
-          </Text>
-        </View>
-        <View className="w-full h=1/3 p-4 flex flex-row justify-between items-center absolute bottom-10">
-          <View className="w-20 h-20" />
+        <View className="w-full h=1/3 p-4 flex flex-row justify-center items-center absolute bottom-10">
           <Shutter handleClickShutter={handleClickShutter} />
-          <Record recordFlag={recordFlag} toggleRecordFlag={toggleRecordFlag} />
         </View>
+        <ResultModal
+          isModalVisible={isModalVisible}
+          isLoading={isLoading}
+          isRecordLoading={isRecordLoading}
+          recordFlag={recordFlag}
+          reqBase64Img={reqBase64Img}
+          resBase64Img={resBase64Img}
+          answer={answer}
+          toggleModalState={toggleModalState}
+          toggleRecordFlag={toggleRecordFlag}
+        />
       </View>
     );
   }
