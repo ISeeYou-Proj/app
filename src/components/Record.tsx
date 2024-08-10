@@ -22,15 +22,15 @@ export default function Record({
           accessibilityLabel={accessibility}>
           {recordFlag ? (
             <Image
-              className="w-12 h-12 p-2"
+              className="w-8 h-8 p-2"
               source={require('../assets/mic_off.png')}
-              resizeMode="center"
+              resizeMode="contain"
             />
           ) : (
             <Image
-              className="w-12 h-12 p-2"
+              className="w-8 h-8 p-2"
               source={require('../assets/mic.png')}
-              resizeMode="center"
+              resizeMode="contain"
             />
           )}
         </TouchableOpacity>
