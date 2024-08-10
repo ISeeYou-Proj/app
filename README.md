@@ -13,6 +13,15 @@
 
 ---
 
+## 결과물
+
+![1](./readme/1.png)
+![2](./readme/2.png)
+![3](./readme/3.png)
+![4](./readme/4.png)
+![5](./readme/5.png)
+![6](./readme/6.png)
+
 ## 개발환경 (사용 라이브러리)
 
 - react-native: 0.74.3
